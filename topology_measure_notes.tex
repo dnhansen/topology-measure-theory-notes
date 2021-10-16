@@ -1,0 +1,599 @@
+% Document setup
+\documentclass[article, a4paper, 11pt, oneside]{memoir}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[UKenglish]{babel}
+
+% Document info
+\newcommand\doctitle{Notes on measure theory and topology}
+\newcommand\docauthor{Danny Nygård Hansen}
+
+% Formatting and layout
+\usepackage[autostyle]{csquotes}
+\usepackage[final]{microtype}
+\usepackage{xcolor}
+\frenchspacing
+\usepackage{styles/articlepagestyle}
+\usepackage{styles/articlesectionstyle}
+
+% Fonts
+\usepackage[largesmallcaps]{kpfonts}
+\DeclareSymbolFontAlphabet{\mathrm}{operators} % https://tex.stackexchange.com/questions/40874/kpfonts-siunitx-and-math-alphabets
+\linespread{1.06}
+\let\mathfrak\undefined
+\usepackage{eufrak}
+\usepackage{inconsolata}
+\usepackage{amssymb}
+
+% Hyperlinks
+\usepackage{hyperref}
+\definecolor{linkcolor}{HTML}{4f4fa3}
+\hypersetup{%
+	pdftitle=\doctitle,
+	pdfauthor=\docauthor,
+	colorlinks,
+	linkcolor=linkcolor,
+	citecolor=linkcolor,
+	urlcolor=linkcolor,
+	bookmarksnumbered=true
+}
+
+% Equation numbering
+\numberwithin{equation}{chapter}
+
+% Footnotes
+\footmarkstyle{\textsuperscript{#1}\hspace{0.25em}}
+
+% Mathematics
+\usepackage{styles/basicmathcommands}
+\usepackage{styles/framedtheorems}
+\usepackage{styles/topologycommands}
+\usepackage{tikz-cd}
+\usetikzlibrary{babel}
+
+% Lists
+\usepackage{enumitem}
+\setenumerate[0]{label=\normalfont(\arabic*)}
+
+% Title
+\title{\doctitle}
+\author{\docauthor}
+
+\newcommand{\setF}{\mathbb{F}}
+\newcommand{\ev}{\mathrm{ev}}
+\newcommand{\calT}{\mathcal{T}}
+\newcommand{\calU}{\mathcal{U}}
+\newcommand{\calB}{\mathcal{B}}
+\newcommand{\calE}{\mathcal{E}}
+\newcommand{\calC}{\mathcal{C}}
+\newcommand{\calD}{\mathcal{D}}
+\newcommand{\calF}{\mathcal{F}}
+\newcommand{\calG}{\mathcal{G}}
+\newcommand{\calM}{\mathcal{M}}
+\newcommand{\calA}{\mathcal{A}}
+\newcommand{\borel}{\mathcal{B}}
+\newcommand{\measurable}{\mathcal{M}}
+\newcommand{\wto}{\Rightarrow}
+\DeclarePairedDelimiter{\net}{\langle}{\rangle}
+\newcommand{\strucS}{\mathfrak{S}}
+\DeclarePairedDelimiter{\gen}{\langle}{\rangle} % Generating set
+\newcommand{\powerset}[1]{2^{#1}}
+\newcommand{\frakL}{\mathfrak{L}}
+
+% Categories
+\newcommand{\cat}[1]{\mathcal{#1}}
+\newcommand{\scat}[1]{\mathbf{#1}} % category supposed to be small
+\newcommand{\ncat}[1]{\mathbf{#1}} % named categories like Set, Top
+
+\newcommand{\catSet}{\ncat{Set}} % Category of sets
+\newcommand{\catTop}{\ncat{Top}} % Category of topological spaces
+\newcommand{\catMble}{\ncat{Mble}} % Category of measurable spaces
+\newcommand{\catPos}{\ncat{Pos}} % Category of posets
+\newcommand{\catCLat}{\ncat{CLat}} % Category of complete lattices
+\newcommand{\catCJoinLat}{\ncat{CsLat}^{\join}} % Category of complete join-semilattices
+\newcommand{\catCMeetLat}{\ncat{CsLat}^{\meet}} % Category of complete meet-semilattices
+\newcommand{\catStruc}[1]{\ncat{Struct}_{#1}} % Category of structured sets
+\newcommand{\catStrucS}{\catStruc{\strucS}} % Category of \strucS-structured sets
+
+
+
+\begin{document}
+
+\maketitle
+
+\chapter{Introduction}
+
+These notes are meant to serve two purposes: Firstly to give an account of (some of) the similarities between topological spaces and measurable spaces. Any student of topology and measure theory have noticed that while $\sigma$-algebras generally do not behave as nicely as topologies, we are able to perform many of the same constructions on both structures: Structure-preserving maps (countinuous and measurable maps, respectively) are defined the same way, maps induce topologies and $\sigma$-algebras in the same way, there are subspaces, products, quotients, and so on.
+
+If we fix a set $X$, both the set of topologies and the set of $\sigma$-algebras on $X$ are complete lattices when ordered by inclusion. I am not aware that such a lattice of structures on a set has a commonly used name, so I have simply called them \emph{structures} in these notes.
+
+Secondly we wish to explore how a topological and measure-theoretical structure on a single set interact.
+
+
+\chapter{Structured sets}
+
+
+\section{Definitions and basic properties}
+
+Let $\strucS$ be a map from sets to sets such that $\strucS_X \defn \strucS(X)$ is a collection of subsets of $\powerset{X}$, and such that for all sets $X$ and $Y$ and maps $f \colon X \to Y$,
+%
+\begin{enumerate}
+    \item $\strucS_X$ is partially ordered by set inclusion,
+    
+    \item $\strucS_X$ is a complete lattice with minimum $\{\emptyset, X\}$ and maximum $2^X$,
+    
+    \item\label{enum:structure_def_pullback} if $\calF \in \strucS_Y$, then $f^{-1}(\calF) \in \strucS_X$, and
+    
+    \item\label{enum:structure_def_pushforward} if $\calE \in \strucS_X$, then
+    %
+    \begin{equation*}
+        \set{B \subseteq Y}{f^{-1}(B) \in \calE} \in \strucS_Y.
+    \end{equation*}
+\end{enumerate}
+%
+We will call such a map $\strucS$ a \emph{structure functor}, and it is indeed a functor as we will see in \cref{sec:structure_categorical}.
+
+If $X$ is a set, then a $\calE \in \strucS_X$ is called a \emph{$\strucS$-structure} on $X$, and we will call the pair $(X, \calE)$ a \emph{$\strucS$-structured set}. We refer to $\strucS_X$ as the \emph{lattice of $\strucS$-structures} on $X$.
+
+Fix a structure functor $\strucS$. If $(X, \calE)$ and $(Y, \calF)$ are structured sets, a \emph{homomorphism} from $X$ to $Y$ is a map $f \colon X \to Y$ such that $f^{-1}(B) \in \calE$ for all $B \in \calF$. Clearly the composition of two homomorphisms is again a homomorphism, so the collection of structured sets and homomorphisms form a (locally small) category. Let us denote this category by $\catStrucS$.
+
+The structure $f^{-1}(\calF)$ in \cref{enum:structure_def_pullback} is called the \emph{pullback} of $\calF$ by $f$ and is denoted $f^*(\calF)$. Similarly, the structure $\set{B \subseteq Y}{f^{-1}(B) \in \calE}$ in \cref{enum:structure_def_pushforward} is called the \emph{pushforward} of $\calE$ by $f$ and is denoted $f_*(\calE)$.
+
+\begin{example}
+    Let $\strucS$ denote the map that associates to a set its lattice of topologies. The first two conditions above are obviously satisfied, and the latter two are easily proved. Thus $\catStrucS$ is just the category $\catTop$ of topological spaces. Similarly, if $\strucS$ maps a set to its lattice of $\sigma$-algebras, then $\catStrucS$ is the category $\catMble$ of measurable spaces.
+\end{example}
+
+In the sequel we fix a structure functor $\strucS$.
+
+\begin{lemma}
+    Let $X$ be a set. If $\calD \subseteq \powerset{X}$, then there is a smallest element $\gen{\calD} \in \strucS_X$ with $\calD \subseteq \gen{\calD}$.
+\end{lemma}
+
+\begin{proof}
+    Let $\Sigma(\calD) = \set{\calE \in \strucS_X}{\calD \subseteq \calE}$. Since $\strucS_X$ is a complete lattice, we can put
+    \begin{equation*}
+        \gen{\calD} = \bigmeet_{\calE \in \Sigma(\calD)} \calE \in \strucS_X.
+    \end{equation*}
+\end{proof}
+%
+If $\gen{\calD} = \calE$, then we say that $\calD$ \emph{generates} or is a \emph{generating set} for $\calE$. It is easy to see that we may characterise joins as a particular generated structure, namely
+%
+\begin{equation}
+    \label{eq:join_as_generated_structure}
+    \bigjoin_{\alpha \in A} \calE_\alpha
+        = \gen[\Big]{ \bigunion_{\alpha \in A} \calE_\alpha }.
+\end{equation}
+
+\begin{proposition}
+    \label{thm:preimage_and_generation_commute}
+    Let $(X,\calE)$ and $(Y,\calF)$ be structured sets, and let $f \colon X \to Y$ be any map. For any $\calD \in 2^Y$ we have
+    %
+    \begin{equation*}
+        f^{-1}\bigl( \gen{\calD} \bigr) = \gen[\big]{f^{-1}(\calD)}.
+    \end{equation*}
+    %
+    In particular, if $\calF = \gen{\calD}$, then $f$ is a homomorphism if and only if $f^{-1}(D) \in \calE$ for all $D \in \calD$.
+\end{proposition}
+%
+In topology, this proposition is trivial since every element in $\gen{\calD}$ is a union of finite intersections of elements in $\calD$. The proof below is identical to the one given in measure theory.
+
+\begin{proof}
+    First notice that $f^{-1}(\calD) \subseteq f^{-1}(\gen{\calD})$, which implies that
+    %
+    \begin{equation*}
+        \gen[\big]{f^{-1}(\calD)} \subseteq f^{-1}\bigl( \gen{\calD} \bigr).
+    \end{equation*}
+    %
+    For the second inclusion, notice that
+    %
+    \begin{equation*}
+        \calA = \set[\big]{B \subseteq Y}{f^{-1}(B) \in \gen[\big]{f^{-1}(\calD)}}
+    \end{equation*}
+    %
+    is a set structure in $Y$. Since clearly $\calD \subseteq \calA$, we also have $\gen{\calD} \subseteq \calA$, which proves the second inclusion.
+\end{proof}
+
+
+\section{Categorical and order properties} \label{sec:structure_categorical}
+
+As mentioned, $\strucS$ is in fact a functor. Its action on a set function $f \colon X \to Y$ is defined as the pullback $f^* \colon \strucS_Y \to \strucS_X$.
+
+Let $\catSet$ denote the category of sets and $\catCJoinLat$ the category of complete join-semilattices and join-preserving maps.
+
+\begin{proposition}[Functoriality of $\strucS$, I]
+    The map $\strucS$ is a contravariant functor from $\catSet$ to $\catCJoinLat$.
+\end{proposition}
+
+\begin{proof}
+    By \eqref{eq:join_as_generated_structure} and \cref{thm:preimage_and_generation_commute}, for any set function $f$ the pullback $f^*$ preserves joins since preimages respect unions, so it is well-defined as a map $\catSet \to \catCJoinLat$.
+    
+    The map $\strucS$ is also contravariant since if $f \colon X \to Y$ and $g \colon Y \to Z$ are set functions, then for $\calG \in \strucS_Z$ we have
+    %
+    \begin{equation*}
+        (g \circ f)^*(\calG)
+            = (g \circ f)^{-1}(\calG)
+            = f^{-1}(g^{-1}(\calG))
+            = (f^* \circ g^*) (\calG).
+    \end{equation*}
+    %
+    Its action on identity functions is clearly trivial, so it is a functor.
+\end{proof}
+
+In the case of topological spaces or measure spaces we can say slightly more: Notice that in both a lattice of topologies or of $\sigma$-algebras on a set, intersections of topologies ($\sigma$-algebras) are themselves topologies ($\sigma$-algebras). A nonempty subset $\frakL$ of $2^X$, where $X$ is some set, is called an \emph{intersection structure}. If also $X \in \frakL$ we call it a \emph{topped intersection structure}. It is easy to show that topped intersection structures are complete lattices ordered by inclusion, and that meets are given by intersections.
+
+If $\catCLat$ denotes the category of complete lattices with join- and meet-preserving maps, then we have the following:
+
+\begin{proposition}[Functoriality of $\strucS$, II]
+    If $\strucS_X$ is an intersection structure for all sets $X$, then $\strucS$ is a contravariant functor from $\catSet$ to $\catCLat$.
+\end{proposition}
+
+\begin{proof}
+    It suffices to show that $f^*$ preserves meets for all set functions $f \colon X \to Y$. But this is clear since preimages respect intersections.
+\end{proof}
+
+It is natural to ask whether the pushforward $f_*$ by $f$ gives rise to a covariant functor from $\catSet$ into a category of lattices. Since $f_*$ is monotone, and we easily see that $(g \circ f)_* = g_* \circ f_*$ if $g \colon Y \to Z$ is a set function, so this does indeed define a covariant functor from $\catSet$ to the category $\catPos$ of posets and monotone maps. But $f_*$ does not, as far as I know, generally preserve meets or joins. If all $\strucS_X$ are intersection structures, however, it does preserve meets, so it is then a functor into the category $\catCMeetLat$ of complete meet-semilattices, though it still does not seem to preserve joins. (I haven't looked too hard for counterexamples.)
+
+
+\section{Initial structures}
+
+\begin{definition}[Initial structures]
+    Let $(f_\alpha)_{\alpha \in A}$ be a collection of maps from a set $X$ to structured sets $(X_\alpha, \calE_\alpha)$. The \emph{initial structure} $\calE$ on $X$ induced by $(f_\alpha)$ is the smallest structure on $X$ that makes all $f_\alpha$ homomorphisms. That is,
+    %
+    \begin{equation*}
+        \calE
+            = \bigjoin_{\alpha \in A} f_\alpha^{-1}(\calE_\alpha)
+            = \gen[\Big]{ \bigunion_{\alpha \in A} f_\alpha^{-1}(\calE_\alpha) }.
+    \end{equation*}
+\end{definition}
+
+\begin{remark}
+    \label{rem:initial_structure_generating_set}
+    If $\calD_\alpha$ is a generating set for $\calE_\alpha$ for all $\alpha \in A$, then we may replace $\calE_\alpha$ above with $\calD_\alpha$. This follows immediately from the second part of \cref{thm:preimage_and_generation_commute}, since the structure $\gen[\big]{ \bigunion_{\alpha \in A} f_\alpha^{-1}(\calD_\alpha) }$ makes all $f_\alpha$ into homomorphisms.
+\end{remark}
+
+
+\begin{theorem}[Characteristic property of initial structures]
+    Let $(X,\calE)$ be a structured set equipped with the initial structure induced by maps $f_\alpha \colon X \to X_\alpha$,  $\alpha \in A$. If $(Y,\calF)$ is a structured set, then $f \colon Y \to X$ is a homomorphism if and only if $f_\alpha \circ f$ is a homomorphism for all $\alpha \in A$:
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[r, "f_\alpha"]
+            & X_\alpha \\
+            Y
+                \ar[u, "f"]
+                \ar[ur, "f_\alpha \circ f", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    In particular, the maps $f_\alpha$ are homomorphisms.
+
+    Furthermore, the initial structure on $X$ is unique with this property.
+\end{theorem}
+
+\begin{proof}
+    If $f$ is a homomorphism, then clearly all $f_\alpha \circ f$ are all homomorphisms.
+
+    Conversely, assume that all compositions $f_\alpha \circ f$ are homomorphisms. It suffices to show that $f^{-1}(B) \in \calF$ for all $B$ from a generating set for $\calE$, so let $B = f_\alpha^{-1}(C)$ for some $\alpha \in A$ and $C \in \calE_\alpha$. It follows that
+    %
+    \begin{equation*}
+        f^{-1}(B)
+            = f^{-1}(f_\alpha^{-1}(C))
+            = (f_\alpha \circ f)^{-1}(C)
+            \in \calF
+    \end{equation*}
+    %
+    as desired. It now follows that $f_\alpha$ is a homomorphism since the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X
+                \ar[r, "f_\alpha"]
+            & X_\alpha \\
+            X
+                \ar[u, "\id_X"]
+                \ar[ur, "f_\alpha", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    commutes, and $\id_X$ is always a homomorphism.
+
+    Now assume that $\calE'$ is a structure on $X$ with the characteristic property of the initial structure. Consider the commutative diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            (X,\calE')
+                \ar[r, "f_\alpha'"]
+            & X_\alpha \\
+            (X,\calE)
+                \ar[u, "\id_X"]
+                \ar[ur, "f_\alpha", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    where a prime denotes that the domain of a map is $(X,\calE')$ but is otherwise the same as its unprimed counterpart. The $f_\alpha'$ are homomorphisms, since this fact only depends on $(X,\calE')$ satisfying the characteristic property of initial structures. It then follows from this property that $\id_X$ is a homomorphism.
+
+    In the same way the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            (X,\calE)
+                \ar[r, "f_\alpha"]
+            & X_\alpha \\
+            (X,\calE')
+                \ar[u, "\id_X'"]
+                \ar[ur, "f_\alpha'", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    shows that $\id_X'$ is a homomorphism, and so $(X,\calE)$ and $(X,\calE')$ are isomorphic through the identity, hence $\calE = \calE'$.
+\end{proof}
+
+\begin{examplebreak}[Subsets]
+    Let $(X,\calE)$ be a structured set, and let $S \subseteq X$. The inclusion map $\iota_S \colon S \to X$ then induces an initial structure on $S$, namely the pullback $\calE_S = \iota_S^*(\calE)$. By the characteristic property of initial structures, a map $f \colon Y \to S$ from a structured set is a homomorphism if and only if $\iota_S \circ f$ is a homomorphism.
+
+    On the other hand, if $f \colon Y \to X$ is a map with $f(Y) \subseteq S$, then the map $\tilde f \colon Y \to S$ given by $\tilde f(y) = f(y)$ for all $y \in Y$ is a homomorphism if and only if $f = \iota_S \circ \tilde f$ is a homomorphism. In other words, whether a map is a homomorphism or not does not depend on the codomain if we agree to equip subsets with the structure induced by their inclusion maps.
+
+    If $S = f(Y)$ and $\tilde f \colon Y \to f(Y)$ is an isomorphism, then we call $f$ an \emph{embedding}.
+\end{examplebreak}
+
+\begin{examplebreak}[Products]
+    Let $(X_\alpha, \calE_\alpha)_{\alpha \in A}$ be a collection of structured sets, let $X = \bigprod_{\alpha \in A} X_\alpha$ be the Cartesian product of the sets $X_\alpha$, and denote the associated projections by $\pi_\alpha \colon X \to X_\alpha$. We define a product structure
+    %
+    \begin{equation*}
+        \calE = \bigotimes_{\alpha \in A} \calE_\alpha
+    \end{equation*}
+    %
+    as the initial structure on $X$ induced by the projection maps. Since $X$ is a product of the $X_\alpha$ in the category of sets, the characteristic property of initial structures implies that $(X,\calE)$ is a product of the structured sets $(X_\alpha,\calE_\alpha)$. This shows that the category $\catStrucS$ has all small products.
+\end{examplebreak}
+
+
+\begin{proposition}[Composition of initial structures]
+    Assume that $X$ has the initial structure induced by a family of maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$, and that each set $X_\alpha$ has the initial structure induced by maps $g_{\alpha\lambda} \colon X_\alpha \to Y_{\alpha\lambda}$ for $\lambda \in \Lambda_\alpha$. Then $X$ carries the initial structure induced by the maps $g_{\alpha\lambda} \circ f_\alpha \colon X \to Y_{\alpha\lambda}$ for $\alpha \in A$ and $\lambda \in \Lambda_\alpha$.
+\end{proposition}
+
+\begin{proof}
+    Let $\calF_{\alpha\lambda}$ be the set structure on $Y_{\alpha\lambda}$. By definition we have
+    %
+    \begin{equation*}
+        \calE_\alpha
+            = \bigjoin_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}^{-1}(\calF_{\alpha\lambda})
+            = \gen[\Big]{\bigunion_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}^{-1}(\calF_{\alpha\lambda})}.
+    \end{equation*}
+    %
+    Since the union on the right-hand side is a generating set for $\calE_\alpha$, \cref{rem:initial_structure_generating_set} implies that
+    %
+    \begin{equation*}
+        \calE
+            = \gen[\Big]{\bigunion_{\alpha \in A} f_\alpha^{-1} \Big( \bigunion_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}^{-1}(\calF_{\alpha\lambda}) \Big)}
+            = \gen[\Big]{\bigunion_{\alpha \in A} \bigunion_{\lambda \in \Lambda_\alpha} (g_{\alpha\lambda} \circ f_\alpha)^{-1}(\calF_{\alpha\lambda})},
+    \end{equation*}
+    %
+    proving the claim.
+\end{proof}
+
+
+\begin{examplebreak}[Subspace and product structures]
+    Let $(X_\alpha)_{\alpha \in A}$ be a family of structured sets, and let $S_\alpha \subseteq X_\alpha$ be subsets. Then we may equip the product $S = \bigprod_{\alpha \in A} S_\alpha$ by first equipping $X = \bigprod_{\alpha \in A} X_\alpha$ with the product structure, and then induce the subset structure on $S$. In the opposite order we may first equip each $S_\alpha$ with the subset structure, and then induce the product structure. These in fact give the same structure since the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            & S_\alpha
+                \ar[r, "\iota_{S_\alpha}"]
+            & X_\alpha \\
+            S  
+                \ar[ur, "\pi_{S_\alpha}"]
+                \ar[r, "\iota_S", swap]
+            & X
+                \ar[ur, "\pi_{X_\alpha}", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    commutes.
+\end{examplebreak}
+
+
+\begin{examplebreak}[The weak${}^*$-topology]
+    Let $X$ be a topological vector space over the field $\setF$ with topological dual $X^*$, and for $x \in X$ let $\ev_x \colon X^* \to \setF$ be the evaluation map $\ev_x(\phi) = \phi(x)$ for $\phi \in X^*$. Since $X^*$ is a subset of $\setF^X$, it naturally carries the subspace topology. The product topology on $\setF^X$ is induced by the projection maps $\pi_x \colon \setF^X \to \setF$ for $x \in X$. But $\pi_x \circ \iota_{X^*}$ is just the evaluation map $\ev_x$, so the subspace topology on $X^*$ is exactly the weak${}^*$-topology.
+\end{examplebreak}
+
+
+\begin{proposition}[Embedding into product]
+    Let $f_\alpha \colon Y \to X_\alpha$ for $\alpha \in A$, let $X = \bigprod_{\alpha \in A} X_\alpha$, and let $f \colon Y \to X$ be the unique map such that $f_\alpha = \pi_\alpha \circ f$:
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            && X_\alpha \\
+            Y
+                \ar[r, "f", swap]
+                \ar[rru, "f_\alpha", bend left]
+            & X
+                \ar[ru, "\pi_\alpha", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    Then $f$ is an embedding if and only if $Y$ carries the initial structure induced by the maps $f_\alpha$ and the collection $(f_\alpha)_{\alpha \in A}$ separates points in $Y$.
+\end{proposition}
+
+\begin{proof}
+    First assume that $f$ is an embedding. In particular it is injective, and since the maps $\pi_\alpha$ separate points in $X$, the compositions $f_\alpha = \pi_\alpha \circ f$ separate points in $Y$. Let $\tilde f \colon Y \to f(Y)$ be the isomorphism such that $f = \iota_{f(Y)} \circ \tilde f$. Then since $\tilde f$ is an isomorphism, in particular $Y$ carries the initial structure induced by $\tilde f$. But then $Y$ carries the initial structure induced by the maps
+    %
+    \begin{equation}
+        \label{eq:embedding_into_product}
+        \pi_\alpha \circ \iota_{f(Y)} \circ \tilde f
+            = \pi_\alpha \circ f
+            = f_\alpha
+    \end{equation}
+    %
+    for $\alpha \in A$, as claimed.
+
+    Conversely, assume that the $f_\alpha$ separate points in $Y$ and that $Y$ has the initial structure $\calF$ induced by the $f_\alpha$. The $f_\alpha$ are then homomorphisms, and by the characteristic property of initial structures so is $f$. Furthermore, if $x,y \in Y$ with $x \neq y$, then there is an $\alpha \in A$ such that $f_\alpha(x) \neq f_\alpha(y)$, which implies that $f(x) \neq f(y)$, so $f$ is injective.
+
+    Denote the product structure on $X$ by $\calE$. We show that if $B \in \calF$, then $f(B) \in \calE_{f(Y)}$, which will imply that $f$ is an embedding. It suffices to prove this when $B$ is an element of a generating set for $\calF$, i.e. on the form $f_\alpha^{-1}(C)$ for some $\alpha \in A$ and $C \in \calE_\alpha$. By \eqref{eq:embedding_into_product} we have
+    %
+    \begin{equation*}
+        B
+            = f_\alpha^{-1}(C)
+            = (\pi_\alpha \circ \iota_{f(Y)} \circ \tilde f)^{-1}(C)
+            = \tilde f^{-1} \big( (\pi_\alpha \circ \iota_{f(Y)})^{-1}(C) \big),
+    \end{equation*}
+    %
+    from which it follows that
+    %
+    \begin{equation*}
+        f(B)
+            = \tilde f(B)
+            = (\pi_\alpha \circ \iota_{f(Y)})^{-1}(C)
+            \in \calE_{f(Y)}.
+    \end{equation*}
+    %
+    as desired.
+\end{proof}
+
+
+If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably generated} if there is a countable collection of sets $\calD \subseteq 2^X$ such that $\calE = \gen{\calD}$.
+
+\begin{proposition}[Countably generated initial structures]
+    Let $(X_\alpha,\calE_\alpha)_{\alpha \in A}$ be a countable collection of structured sets, and assume that the $\calE_\alpha$ are countably generated by collections of sets $\calD_\alpha$. If an initial structure $\calE$ is induced on a set $X$ by maps $f_\alpha \colon X \to X_\alpha$, then $\calE$ is also countably generated.
+\end{proposition}
+
+\begin{proof}
+    This follows immediately by \cref{rem:initial_structure_generating_set} since the generating set $\bigunion_{\alpha \in A} f_\alpha^{-1}(\calD_\alpha)$ is a countable union of countable sets.
+\end{proof}
+
+
+\begin{examplebreak}[Second-countable topological spaces]
+    The above proposition implies that an initial topology induced by a countable family of maps into second-countable spaces is itself second-countable. In particular, subspaces and countable products of second-countable spaces are second-countable. Since this holds for subspaces, we say that second-countability is a \emph{hereditary} property.\footnote{Contrast this e.g. with the Lindelöf property: If $X$ is an uncountable discrete space, then $X$ is not Lindelöf. However, if we take an element $\infty \not\in X$, the space $\tilde X = X \union \{\infty\}$ whose open sets are the open sets in $X$ and $\tilde X$ itself is Lindelöf. Properties like compactness and (path-)connectedness are also not hereditary.}
+\end{examplebreak}
+
+
+
+\chapter{Topology}
+
+\section{Countability axioms}
+
+\begin{definition}[Second-countable space]
+    A topological space $(X, \calT)$ is called \emph{second-countable} if there exists a countable basis for $\calT$.
+\end{definition}
+
+
+\begin{definition}[Lindelöf space]
+    A topological space $(X, \calT)$ is said to be \emph{Lindelöf} if every open cover of $X$ has a countable subcover. If every subspace of $X$ is Lindelöf in the subspace topology, then $X$ is called \emph{hereditarily Lindelöf}.
+\end{definition}
+
+\begin{remark}
+    A space can be Lindelöf without being hereditarily Lindelöf. Let $(X, \calT)$ be an uncountable discrete space, and let $y \not\in X$. Define a topological space $(Y, \calT')$ with underlying space $ Y = X \union \{y\}$ and topology $\calT' = \calT \union \{Y\}$. Then $(Y, \calT')$ is Lindelöf since any open cover must include $Y$ itself, this being the only open set containing the point $y$. But the subspace $X$ (whose subspace topology is exactly $\calT$) is clearly not Lindelöf.
+\end{remark}
+
+
+\begin{proposition}
+    If $(X,\calT)$ is a second-countable topological space, then it is hereditarily Lindelöf.
+\end{proposition}
+
+\begin{proof}
+    Clearly every subspace of $X$ is second-countable, so it suffices to show that $X$ is Lindelöf.
+    
+    Let $\calU$ be an open cover of $X$ and let $\calB$ be a countable basis for the topology $\calT$. Consider an $x \in X$. Since $\calU$ is a cover of $X$ there is some $U_x \in \calU$ with $x \in \calU$. And since $\calB$ is a basis for $\calT$ there is some $B_x \in \calB$ with $x \in B_x \subseteq U_x$. Let $\calB' \subseteq \calB$ be the subset of open sets obtained in this way. Clearly $\calB'$ is a cover of $X$.
+    
+    For each $B \in \calB'$, the above shows that there exists some $U \in \calU$ with $B \subseteq U$. This defines a map $\calB' \to \calU$ given by $B \mapsto U$ whose image is a countable cover of $X$, proving the claim.
+\end{proof}
+
+
+\begin{lemma}
+    \label{thm:countable_basis}
+    Let $(X, \calT)$ be a second-countable space. Then every basis for $\calT$ contains a countable basis for $\calT$.
+\end{lemma}
+
+\begin{proof}
+    Let $\calB$ be a basis for $\calT$, and let $\calC$ be a countable basis. We can write every $C \in \calC$ on the form $C = \bigunion_{\alpha \in A} B_\alpha$ for some family $\set{B_\alpha}{\alpha \in A} \subseteq \calB$. This is in particular an open cover of $C$, so since $X$ is hereditarily Lindelöf there is a countable subset $A' \subseteq A$ such that $C = \bigunion_{\alpha \in A'} B_\alpha$. For each $C \in \calC$ we thus obtain a countable subcollection of sets from $\calB$, and since $\calC$ is also countable, the union of all these sets is countable and is clearly a basis for $\calT$.
+\end{proof}
+
+
+\begin{proposition}
+    \label{thm:second_countable_product}
+    Let $\set{X_n}{n \in \setN}$ be a countable family of second-countable topological spaces, and let $X = \bigprod_{n \in \setN} X_n$ be the product space equipped with the product topology. Then $X$ is second-countable.
+\end{proposition}
+
+\begin{proof}
+    Let $\calB_n$ be a countable basis for the topology on $X_n$. For a finite subset $A \subseteq \setN$ let
+    %
+    \begin{equation*}
+        \calB_A = \set[\bigg]{ \bigprod_{n \in \setN} U_n }{ \text{$U_n \in \calB_n$ if $n \in A$ and $U_n = X_n$ otherwise} }.
+    \end{equation*}
+    %
+    Now let $\calB$ be the union of all such $\calB_A$, and notice that $\calB$ is countable since each $\calB_A$ is countable and there are countably many finite subsets of $\setN$. Clearly all sets in $\calB$ are open in $X$. Conversely, if $U \subseteq X$ is open and $x = (x_n)_{n \in \setN} \in U$, then there exist open sets $V_n \subseteq X_n$ such that
+    %
+    \begin{equation*}
+        x
+            \in \bigprod_{n \in \setN} V_n
+            \subseteq U,
+    \end{equation*}
+    %
+    where for all but finitely many $n$ we have $V_n = X_n$. For the remaining $n$ there exist $U_n \in \calB_n$ such that $x_n \in U_n \subseteq V_n$, since $\calB_n$ is a basis for the topology on $X_n$. Letting $U_n = X_n$ if $V_n = X_n$ we get
+    %
+    \begin{equation*}
+        x
+            \in \bigprod_{n \in \setN} U_n
+            \subseteq \bigprod_{n \in \setN} V_n
+            \subseteq U.
+    \end{equation*}
+    %
+    And $\bigprod_{n \in \setN} U_n \in \calB$, so $\calB$ is a basis for the topology on $X$.
+\end{proof}
+
+
+
+
+
+
+\chapter{Measure theory}
+
+If $A$ is a subset of a measurable space $(X, \calE)$, then denote by $\calE_A$ the $\sigma$-algebra on $A$ induced by the inclusion $i \colon A \to X$. That is, let
+%
+\begin{equation*}
+    \calE_A
+        = i^{-1}(\calE)
+        = \set{i^{-1}(B)}{B \in \calE}
+        = \set{A \intersect B}{B \in \calE}.
+\end{equation*}
+%
+Similarly, if $A$ is a subspace of a topological space $(X, \calT)$, denote by $\calT_A$ the subspace topology on $A$.
+
+\begin{proposition}
+    Let $(X, \calT)$ be a topological space, and let $A \subseteq X$. Then $\borel(A) = \borel(X)_A$, i.e. $\sigma(\calT_A) = \sigma(\calT)_A$.
+\end{proposition}
+
+\begin{proof}
+    Notice that
+    %
+    \begin{equation*}
+        \sigma(\calT_A)
+            = \sigma(i^{-1}(\calT))
+            = i^{-1}(\sigma(\calT))
+            = \sigma(\calT)_A,
+    \end{equation*}
+    %
+    where we use [reference to pulling $i^{-1}$ out of $\sigma$].
+\end{proof}
+
+
+
+\begin{proposition}
+    Let $\set{X_\alpha}{\alpha \in A}$ be a family of topological spaces, and let $X = \bigprod_{\alpha \in A} X_\alpha$. Then
+    %
+    \begin{equation*}
+        \bigotimes_{\alpha \in A} \borel(X_\alpha)
+            \subseteq \borel(X)
+    \end{equation*}
+    %
+    If $A$ is countable and the spaces $X_\alpha$ are second-countable, then the above inclusion is an equality.
+\end{proposition}
+
+\begin{proof}
+    Let $\calT$ be the product topology on $X$, and let $\calD$ be the generating set of the product $\sigma$-algebra on $X$. Since $\calD$ also generates the product topology (but doesn't it generate the box topology??) $\calT$ we have $\calD \subseteq \calT$, proving the first claim. (No, I think we need to look at generators of each $\sigma$-algebra in the product. Or use continuity of projections! Yes, better.)
+    
+    Now assume that $A$ is countable and that all the $X_\alpha$ are second-countable. To prove the second claim it suffices to show that $\calT \subseteq \sigma(\calD)$. First recall that $X$ is also second-countable by \cref{thm:second_countable_product}. Consider the basis for the product topology on $X$ that consists of finite intersections of elements in $\calD$, and let $\calD'$ be a countable basis contained therein (cf. \cref{thm:countable_basis}). Then every set in $\calT$ is a countable union of sets in $\calD'$, and so $\calT \subseteq \sigma(\calD') = \sigma(\calD)$ as desired.
+\end{proof}
+
+
+\end{document}
