@@ -472,28 +472,24 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 
 \section{Countability axioms}
 
-\begin{definition}[Second-countable space]
-    A topological space $(X, \calT)$ is called \emph{second-countable} if there exists a countable basis for $\calT$.
-\end{definition}
+We remind the reader that a topological space $(X, \calT)$ is \emph{second-countable} if there exists a countable basis for $\calT$. Furthermore, $(X, \calT)$ is said to be \emph{Lindelöf} if every open cover of $X$ has a countable subcover.
 
-
-\begin{definition}[Lindelöf space]
-    A topological space $(X, \calT)$ is said to be \emph{Lindelöf} if every open cover of $X$ has a countable subcover. If every subspace of $X$ is Lindelöf in the subspace topology, then $X$ is called \emph{hereditarily Lindelöf}.
-\end{definition}
+Recall also that a topological property is called \emph{hereditary} if it follows from a space $X$ having this property that any subspace of $X$ also has this property. It is easy to see that second-countability is hereditary, but the Lindelöf property is not:
 
 \begin{remark}
     A space can be Lindelöf without being hereditarily Lindelöf. Let $(X, \calT)$ be an uncountable discrete space, and let $y \not\in X$. Define a topological space $(Y, \calT')$ with underlying space $ Y = X \union \{y\}$ and topology $\calT' = \calT \union \{Y\}$. Then $(Y, \calT')$ is Lindelöf since any open cover must include $Y$ itself, this being the only open set containing the point $y$. But the subspace $X$ (whose subspace topology is exactly $\calT$) is clearly not Lindelöf.
 \end{remark}
-
+%
+If every subspace of $X$ is Lindelöf, then we say that $X$ is \emph{hereditarily Lindelöf}.
 
 \begin{proposition}
     If $(X,\calT)$ is a second-countable topological space, then it is hereditarily Lindelöf.
 \end{proposition}
 
 \begin{proof}
-    Clearly every subspace of $X$ is second-countable, so it suffices to show that $X$ is Lindelöf.
+    Every subspace of $X$ is second-countable, so it suffices to show that $X$ is Lindelöf.
     
-    Let $\calU$ be an open cover of $X$ and let $\calB$ be a countable basis for the topology $\calT$. Consider an $x \in X$. Since $\calU$ is a cover of $X$ there is some $U_x \in \calU$ with $x \in \calU$. And since $\calB$ is a basis for $\calT$ there is some $B_x \in \calB$ with $x \in B_x \subseteq U_x$. Let $\calB' \subseteq \calB$ be the subset of open sets obtained in this way. Clearly $\calB'$ is a cover of $X$.
+    Let $\calU$ be an open cover of $X$ and let $\calB$ be a countable basis for the topology $\calT$. Consider an $x \in X$. Since $\calU$ is a cover of $X$ there is some $U_x \in \calU$ with $x \in \calU$, and since $\calB$ is a basis for $\calT$ there is some $B_x \in \calB$ with $x \in B_x \subseteq U_x$. Let $\calB' \subseteq \calB$ be the subset of open sets obtained in this way. Clearly $\calB'$ is a cover of $X$.
     
     For each $B \in \calB'$, the above shows that there exists some $U \in \calU$ with $B \subseteq U$. This defines a map $\calB' \to \calU$ given by $B \mapsto U$ whose image is a countable cover of $X$, proving the claim.
 \end{proof}
@@ -511,7 +507,7 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 
 \begin{proposition}
     \label{thm:second_countable_product}
-    Let $\set{X_n}{n \in \setN}$ be a countable family of second-countable topological spaces, and let $X = \bigprod_{n \in \setN} X_n$ be the product space equipped with the product topology. Then $X$ is second-countable.
+    Let $(X_n)_{n \in \setN}$ be a countable family of second-countable topological spaces, and let $X = \bigprod_{n \in \setN} X_n$ be the product space equipped with the product topology. Then $X$ is second-countable.
 \end{proposition}
 
 \begin{proof}
