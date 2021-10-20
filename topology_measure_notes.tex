@@ -92,8 +92,12 @@
 \newcommand{\catCLat}{\ncat{CLat}} % Category of complete lattices
 \newcommand{\catCJoinLat}{\ncat{CsLat}^{\join}} % Category of complete join-semilattices
 \newcommand{\catCMeetLat}{\ncat{CsLat}^{\meet}} % Category of complete meet-semilattices
-\newcommand{\catStruc}[1]{\ncat{Struct}_{#1}} % Category of structured sets
+\newcommand{\catStruc}[1]{\ncat{Str}_{#1}} % Category of structured sets
 \newcommand{\catStrucS}{\catStruc{\strucS}} % Category of \strucS-structured sets
+
+
+% Section style
+\setsubsecheadstyle{\normalfont\itshape}
 
 
 
@@ -133,7 +137,7 @@ Let $\strucS$ be a map from sets to sets such that $\strucS_X \defn \strucS(X)$ 
 %
 We will call such a map $\strucS$ a \emph{structure functor}, and it is indeed a functor as we will see in \cref{sec:structure_categorical}.
 
-If $X$ is a set, then a $\calE \in \strucS_X$ is called a \emph{$\strucS$-structure} on $X$, and we will call the pair $(X, \calE)$ a \emph{$\strucS$-structured set}. We refer to $\strucS_X$ as the \emph{lattice of $\strucS$-structures} on $X$.
+If $X$ is a set, then a $\calE \in \strucS_X$ is called a \emph{$\strucS$-structure} on $X$, and we will call the pair $(X, \calE)$ a \emph{$\strucS$-structured set}. We refer to $\strucS_X$ as the \emph{lattice of $\strucS$-structures} on $X$. The minimal structure $\{\emptyset, X\}$ is called the \emph{trivial structure}, and the maximal structure $\powerset{X}$ is called the \emph{discrete structure} on $X$.
 
 Fix a structure functor $\strucS$. If $(X, \calE)$ and $(Y, \calF)$ are structured sets, a \emph{homomorphism} from $X$ to $Y$ is a map $f \colon X \to Y$ such that $f^{-1}(B) \in \calE$ for all $B \in \calF$. Clearly the composition of two homomorphisms is again a homomorphism, so the collection of structured sets and homomorphisms form a (locally small) category. Let us denote this category by $\catStrucS$.
 
@@ -194,9 +198,11 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 \end{proof}
 
 
-\section{Categorical and order properties} \label{sec:structure_categorical}
+\section{Categorical properties} \label{sec:structure_categorical}
 
-As mentioned, $\strucS$ is in fact a functor. Its action on a set function $f \colon X \to Y$ is defined as the pullback $f^* \colon \strucS_Y \to \strucS_X$.
+\subsection{Functoriality of $\strucS$}
+
+As mentioned, $\strucS$ is in fact a functor. Its action on a set function $f \colon X \to Y$ is defined as the pullback $f^* \colon \strucS_Y \to \strucS_X$. 
 
 Let $\catSet$ denote the category of sets and $\catCJoinLat$ the category of complete join-semilattices and join-preserving maps.
 
@@ -232,6 +238,21 @@ If $\catCLat$ denotes the category of complete lattices with join- and meet-pres
 \end{proof}
 
 It is natural to ask whether the pushforward $f_*$ by $f$ gives rise to a covariant functor from $\catSet$ into a category of lattices. Since $f_*$ is monotone, and we easily see that $(g \circ f)_* = g_* \circ f_*$ if $g \colon Y \to Z$ is a set function, so this does indeed define a covariant functor from $\catSet$ to the category $\catPos$ of posets and monotone maps. But $f_*$ does not, as far as I know, generally preserve meets or joins. If all $\strucS_X$ are intersection structures, however, it does preserve meets, so it is then a functor into the category $\catCMeetLat$ of complete meet-semilattices, though it still does not seem to preserve joins. (I haven't looked too hard for counterexamples.)
+
+
+\subsection{The forgetful functor on $\catStrucS$}
+
+Just as there is a forgetful functor $\catTop \to \catSet$ that sends a topological space to its underlying set, there is a forgetful functor $U \colon \catStrucS \to \catSet$. As usual, $U$ has a left adjoint $D$ that equips a set with the discrete structure, and it has a right adjoint $T$ that equips the set with the trivial structure, i.e. $D \dashv U \dashv T$.
+
+It follows immediately that $U$ preserves both limits and colimits. Hence if $\catStrucS$ e.g. has coproducts -- which it has, as we will see later -- we already know that they have to be (isomorphic to) disjoint unions of the underlying sets, equipped with an appropriate structure.
+
+
+\subsection{Presheaves on structured sets}
+
+Let $(X, \calE)$ be a structured set, and view $\calE$ as a preorder category. Analogous to the case of topological spaces, a presheaf on $\calE$ (i.e. a contravariant functor $\calE \to \catSet$) is called a \emph{presheaf} on $(X, \calE)$, or simply a presheaf on $X$ if the structure is understood.
+
+As an example, fix a structured set $Y$ and take the presheaf $F$ on $X$ given by $F(B) = \catStrucS(B,Y)$, i.e. $F$ sends a set $B \in \calE$ to the set of homomorphisms $B \to Y$. Furthermore, $F$ sends an inclusion $B \subseteq B'$ in $\calE$ to the restriction map $\catStrucS(B',Y) \to \catStrucS(B,Y)$ given by $f \mapsto f|_B$. (This of course requires that we have a notion of subsets inheriting structures. Indeed we do, see \cref{ex:subset_structure}.) A common example of this is the case $\catStrucS = \catTop$ and $Y = \reals$, in which case $F$ sends an open set $U$ to the set of continuous functions $U \to \reals$.
+
 
 
 \section{Initial structures}
@@ -330,6 +351,7 @@ It is natural to ask whether the pushforward $f_*$ by $f$ gives rise to a covari
 \end{proof}
 
 \begin{examplebreak}[Subsets]
+    \label{ex:subset_structure}
     Let $(X,\calE)$ be a structured set, and let $S \subseteq X$. The inclusion map $\iota_S \colon S \to X$ then induces an initial structure on $S$, namely the pullback $\calE_S = \iota_S^*(\calE)$. By the characteristic property of initial structures, a map $f \colon Y \to S$ from a structured set is a homomorphism if and only if $\iota_S \circ f$ is a homomorphism.
 
     On the other hand, if $f \colon Y \to X$ is a map with $f(Y) \subseteq S$, then the map $\tilde f \colon Y \to S$ given by $\tilde f(y) = f(y)$ for all $y \in Y$ is a homomorphism if and only if $f = \iota_S \circ \tilde f$ is a homomorphism. In other words, whether a map is a homomorphism or not does not depend on the codomain if we agree to equip subsets with the structure induced by their inclusion maps.
