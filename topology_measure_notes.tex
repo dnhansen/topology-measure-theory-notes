@@ -55,6 +55,10 @@
 \usepackage{enumitem}
 \setenumerate[0]{label=\normalfont(\arabic*)}
 
+% Bibliography
+\usepackage[backend=biber, style=authoryear, maxcitenames=2, useprefix]{biblatex}
+\addbibresource{references.bib}
+
 % Title
 \title{\doctitle}
 \author{\docauthor}
@@ -612,6 +616,11 @@ Similarly, if $A$ is a subspace of a topological space $(X, \calT)$, denote by $
     
     Now assume that $A$ is countable and that all the $X_\alpha$ are second-countable. To prove the second claim it suffices to show that $\calT \subseteq \sigma(\calD)$. First recall that $X$ is also second-countable by \cref{thm:second_countable_product}. Consider the basis for the product topology on $X$ that consists of finite intersections of elements in $\calD$, and let $\calD'$ be a countable basis contained therein (cf. \cref{thm:countable_basis}). Then every set in $\calT$ is a countable union of sets in $\calD'$, and so $\calT \subseteq \sigma(\calD') = \sigma(\calD)$ as desired.
 \end{proof}
+
+
+\nocite{*}
+
+\printbibliography
 
 
 \end{document}
