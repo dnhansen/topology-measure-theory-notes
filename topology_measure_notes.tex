@@ -362,6 +362,24 @@ As an example, fix a structured set $Y$ and take the presheaf $F$ on $X$ given b
     On the other hand, if $f \colon Y \to X$ is a map with $f(Y) \subseteq S$, then the map $\tilde f \colon Y \to S$ given by $\tilde f(y) = f(y)$ for all $y \in Y$ is a homomorphism if and only if $f = \iota_S \circ \tilde f$ is a homomorphism. In other words, whether a map is a homomorphism or not does not depend on the codomain if we agree to equip subsets with the structure induced by their inclusion maps.
 
     If $S = f(Y)$ and $\tilde f \colon Y \to f(Y)$ is an isomorphism, then we call $f$ an \emph{embedding}.
+
+    We now show that $\catStrucS$ has all equalisers: Let $f,g \colon X \to Y$ be any parallel homomorphisms, and let $S$ be the subset of $X$ on which they agree. If $h \colon Z \to X$ is any homomorphism such that $f \circ h = g \circ h$, then there is a unique homomorphism $u \colon Z \to S$ such that the following diagram commutes:
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            S
+                \ar[r, "\iota_S"]
+            & X
+                \ar[r, shift left, "f"]
+                \ar[r, shift right, "g", swap]
+            & Y \\
+            Z
+                \ar[u, dashed, "u"]
+                \ar[ur, "h", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    We must have $h(Z) \subseteq S$, so we can define $u$ by $u(z) = h(z)$, and $u$ is unique as a set function such that the above diagram commutes. Furthermore, $u$ is a homomorphism by the characteristic property of the subset structure. Thus $S$ along with the inclusion map $\iota_S$ is an equaliser of $f$ and $g$.
 \end{examplebreak}
 
 \begin{examplebreak}[Products]
@@ -371,7 +389,9 @@ As an example, fix a structured set $Y$ and take the presheaf $F$ on $X$ given b
         \calE = \bigotimes_{\alpha \in A} \calE_\alpha
     \end{equation*}
     %
-    as the initial structure on $X$ induced by the projection maps. Since $X$ is a product of the $X_\alpha$ in the category of sets, the characteristic property of initial structures implies that $(X,\calE)$ is a product of the structured sets $(X_\alpha,\calE_\alpha)$. This shows that the category $\catStrucS$ has all small products.
+    as the initial structure on $X$ induced by the projection maps. Since $X$ is a product of the $X_\alpha$ in the category of sets, the characteristic property of initial structures implies that $(X,\calE)$ is a product of the structured sets $(X_\alpha,\calE_\alpha)$.
+    
+    This shows that the category $\catStrucS$ has all small products. But \cref{ex:subset_structure} shows that $\catStrucS$ also has all equalisers, so it is complete.
 \end{examplebreak}
 
 
