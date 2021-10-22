@@ -203,63 +203,6 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 \end{proof}
 
 
-\section{Categorical properties} \label{sec:structure_categorical}
-
-\subsection{Functoriality of $\strucS$}
-
-As mentioned, $\strucS$ is in fact a functor. Its action on a set function $f \colon X \to Y$ is defined as the pullback $f^* \colon \strucS_Y \to \strucS_X$. 
-
-Let $\catSet$ denote the category of sets and $\catCJoinLat$ the category of complete join-semilattices and join-preserving maps.
-
-\begin{proposition}[Functoriality of $\strucS$, I]
-    The map $\strucS$ is a contravariant functor from $\catSet$ to $\catCJoinLat$.
-\end{proposition}
-
-\begin{proof}
-    By \eqref{eq:join_as_generated_structure} and \cref{thm:preimage_and_generation_commute}, for any set function $f$ the pullback $f^*$ preserves joins since preimages respect unions, so it is well-defined as a map $\catSet \to \catCJoinLat$.
-    
-    The map $\strucS$ is also contravariant since if $f \colon X \to Y$ and $g \colon Y \to Z$ are set functions, then for $\calG \in \strucS_Z$ we have
-    %
-    \begin{equation*}
-        (g \circ f)^*(\calG)
-            = (g \circ f)^{-1}(\calG)
-            = f^{-1}(g^{-1}(\calG))
-            = (f^* \circ g^*) (\calG).
-    \end{equation*}
-    %
-    Its action on identity functions is clearly trivial, so it is a functor.
-\end{proof}
-
-In the case of topological spaces or measure spaces we can say slightly more: Notice that in both a lattice of topologies or of $\sigma$-algebras on a set, intersections of topologies ($\sigma$-algebras) are themselves topologies ($\sigma$-algebras). A nonempty subset $\frakL$ of $2^X$, where $X$ is some set, is called an \emph{intersection structure}. If also $X \in \frakL$ we call it a \emph{topped intersection structure}. It is easy to show that topped intersection structures are complete lattices ordered by inclusion, and that meets are given by intersections.
-
-If $\catCLat$ denotes the category of complete lattices with join- and meet-preserving maps, then we have the following:
-
-\begin{proposition}[Functoriality of $\strucS$, II]
-    If $\strucS_X$ is an intersection structure for all sets $X$, then $\strucS$ is a contravariant functor from $\catSet$ to $\catCLat$.
-\end{proposition}
-
-\begin{proof}
-    It suffices to show that $f^*$ preserves meets for all set functions $f \colon X \to Y$. But this is clear since preimages respect intersections.
-\end{proof}
-
-It is natural to ask whether the pushforward $f_*$ by $f$ gives rise to a covariant functor from $\catSet$ into a category of lattices. It is easy to see that $f_*$ is monotone, and a short calculation shows that $(g \circ f)_* = g_* \circ f_*$ if $g \colon Y \to Z$ is another set function, so the pushforward does indeed define a covariant functor from $\catSet$ to the category $\catPos$ of posets and monotone maps. But $f_*$ does not, as far as I know, generally preserve meets or joins. If all $\strucS_X$ are intersection structures, however, it does preserve meets, so it is then a functor into the category $\catCMeetLat$ of complete meet-semilattices, though it still does not seem to preserve joins. (I haven't looked too hard for counterexamples.)
-
-
-\subsection{The forgetful functor on $\catStrucS$}
-
-Just as there is a forgetful functor $\catTop \to \catSet$ that sends a topological space to its underlying set, there is a forgetful functor $U \colon \catStrucS \to \catSet$. As usual, $U$ has a left adjoint $D$ that equips a set with the discrete structure, and it has a right adjoint $T$ that equips the set with the trivial structure, i.e. $D \dashv U \dashv T$.
-
-It follows immediately that $U$ preserves both limits and colimits. Hence if $\catStrucS$ e.g. has coproducts -- which it has, as we will see later -- we already know that they have to be (isomorphic to) disjoint unions of the underlying sets, equipped with an appropriate structure. Contrast this with the situation in the category $\catGrp$ of groups: The forgetful functor $U \colon \catGrp \to \catSet$ has a left adjoint, namely the free functor, so $U$ preserves limits. But it does not preserve colimits; for instance, coproducts in $\catGrp$ are free products, and their underlying sets are certainly not disjoint unions! Hence $U$ does not have a right adjoint.
-
-
-\subsection{Presheaves on structured sets}
-
-Let $(X, \calE)$ be a structured set, and view $\calE$ as a preorder category. Analogous to the case of topological spaces, a presheaf on $\calE$ (i.e. a contravariant functor $\calE \to \catSet$) is called a \emph{presheaf} on $(X, \calE)$, or simply a presheaf on $X$ if the structure is understood.
-
-As an example, fix a structured set $Y$ and take the presheaf $F$ on $X$ given by $F(B) = \catStrucS(B,Y)$, i.e. $F$ sends a set $B \in \calE$ to the set of homomorphisms $B \to Y$. Furthermore, $F$ sends an inclusion $B \subseteq B'$ in $\calE$ to the restriction map $\catStrucS(B',Y) \to \catStrucS(B,Y)$ given by $f \mapsto f|_B$. (This of course requires that we have a notion of subsets inheriting structures. Indeed we do, see \cref{ex:subset_structure}.) A common example of this is the case $\catStrucS = \catTop$ and $Y = \reals$, in which case $F$ sends an open set $U$ to the set of continuous functions $U \to \reals$.
-
-
-
 \section{Initial structures}
 
 \begin{definition}[Initial structures]
@@ -362,27 +305,10 @@ As an example, fix a structured set $Y$ and take the presheaf $F$ on $X$ given b
     On the other hand, if $f \colon Y \to X$ is a map with $f(Y) \subseteq S$, then the map $\tilde f \colon Y \to S$ given by $\tilde f(y) = f(y)$ for all $y \in Y$ is a homomorphism if and only if $f = \iota_S \circ \tilde f$ is a homomorphism. In other words, whether a map is a homomorphism or not does not depend on the codomain if we agree to equip subsets with the structure induced by their inclusion maps.
 
     If $S = f(Y)$ and $\tilde f \colon Y \to f(Y)$ is an isomorphism, then we call $f$ an \emph{embedding}.
-
-    We now show that $\catStrucS$ has all equalisers: Let $f,g \colon X \to Y$ be any parallel homomorphisms, and let $S$ be the subset of $X$ on which they agree. If $h \colon Z \to X$ is any homomorphism such that $f \circ h = g \circ h$, then there is a unique homomorphism $u \colon Z \to S$ such that the following diagram commutes:
-    %
-    \begin{equation*}
-        \begin{tikzcd}
-            S
-                \ar[r, "\iota_S"]
-            & X
-                \ar[r, shift left, "f"]
-                \ar[r, shift right, "g", swap]
-            & Y \\
-            Z
-                \ar[u, dashed, "u"]
-                \ar[ur, "h", swap]
-        \end{tikzcd}
-    \end{equation*}
-    %
-    We must have $h(Z) \subseteq S$, so we can define $u$ by $u(z) = h(z)$, and $u$ is unique as a set function such that the above diagram commutes. Furthermore, $u$ is a homomorphism by the characteristic property of the subset structure. Thus $S$ along with the inclusion map $\iota_S$ is an equaliser of $f$ and $g$.
 \end{examplebreak}
 
 \begin{examplebreak}[Products]
+    \label{ex:product_structure}
     Let $(X_\alpha, \calE_\alpha)_{\alpha \in A}$ be a collection of structured sets, let $X = \bigprod_{\alpha \in A} X_\alpha$ be the Cartesian product of the sets $X_\alpha$, and denote the associated projections by $\pi_\alpha \colon X \to X_\alpha$. We define a product structure
     %
     \begin{equation*}
@@ -390,8 +316,6 @@ As an example, fix a structured set $Y$ and take the presheaf $F$ on $X$ given b
     \end{equation*}
     %
     as the initial structure on $X$ induced by the projection maps. Since $X$ is a product of the $X_\alpha$ in the category of sets, the characteristic property of initial structures implies that $(X,\calE)$ is a product of the structured sets $(X_\alpha,\calE_\alpha)$.
-    
-    This shows that the category $\catStrucS$ has all small products. But \cref{ex:subset_structure} shows that $\catStrucS$ also has all equalisers, so it is complete.
 \end{examplebreak}
 
 
@@ -512,6 +436,96 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 \begin{examplebreak}[Second-countable topological spaces]
     The above proposition implies that an initial topology induced by a countable family of maps into second-countable spaces is itself second-countable. In particular, subspaces and countable products of second-countable spaces are second-countable. Since this holds for subspaces, we say that second-countability is a \emph{hereditary} property.\footnote{Contrast this e.g. with the Lindelöf property: If $X$ is an uncountable discrete space, then $X$ is not Lindelöf. However, if we take an element $\infty \not\in X$, the space $\tilde X = X \union \{\infty\}$ whose open sets are the open sets in $X$ and $\tilde X$ itself is Lindelöf. Properties like compactness and (path-)connectedness are also not hereditary.}
 \end{examplebreak}
+
+
+
+\section{Categorical properties} \label{sec:structure_categorical}
+
+\subsection{The category $\catStrucS$}
+
+We first recapitulate some of the above results in categorical terms. The main result is the following:
+
+\begin{theorem}[Completeness of $\catStrucS$]
+    The category $\catStrucS$ is complete, i.e. it has all small limits.
+\end{theorem}
+
+\begin{proof}
+    By e.g. \cite[Theorem~60]{smithcategory} it is enough to show that $\catStrucS$ has all small products and has equalisers.
+
+    \emph{Products}: We claim that the product $(X, \calE)$ considered in \cref{ex:product_structure} is in fact a product of the objects $(X_\alpha, \calE_\alpha)_{\alpha \in A}$ in $\catStrucS$. If $Y$ is a structured set and $f_\alpha Y \to X_\alpha$ are homomorphisms, then since $X$ is a product in $\catSet$ there is a unique set function $f \colon Y \to X$ such that $f_\alpha = \pi_\alpha \circ f$ for all $\alpha \in A$. But $f$ is also a homomorphism by the characteristic property of the product structure, so $(X, \calE)$ is in fact a product in $\catStrucS$.
+
+    \emph{Equalisers}: Let $f,g \colon X \to Y$ be any parallel homomorphisms, and let $S$ be the subset of $X$ on which they agree. If $h \colon Z \to X$ is any homomorphism such that $f \circ h = g \circ h$, then there is a unique homomorphism $u \colon Z \to S$ such that the following diagram commutes:
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            S
+                \ar[r, "\iota_S"]
+            & X
+                \ar[r, shift left, "f"]
+                \ar[r, shift right, "g", swap]
+            & Y \\
+            Z
+                \ar[u, dashed, "u"]
+                \ar[ur, "h", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    We must have $h(Z) \subseteq S$, so we can define $u$ by $u(z) = h(z)$, and $u$ is unique as a set function such that the above diagram commutes. Furthermore, $u$ is a homomorphism by the characteristic property of the subset structure. Thus $S$ along with the inclusion map $\iota_S$ is an equaliser of $f$ and $g$.
+\end{proof}
+
+
+\subsection{Functoriality of $\strucS$}
+
+As mentioned, $\strucS$ is in fact a functor. Its action on a set function $f \colon X \to Y$ is defined as the pullback $f^* \colon \strucS_Y \to \strucS_X$. 
+
+Let $\catSet$ denote the category of sets and $\catCJoinLat$ the category of complete join-semilattices and join-preserving maps.
+
+\begin{proposition}[Functoriality of $\strucS$, I]
+    The map $\strucS$ is a contravariant functor from $\catSet$ to $\catCJoinLat$.
+\end{proposition}
+
+\begin{proof}
+    By \eqref{eq:join_as_generated_structure} and \cref{thm:preimage_and_generation_commute}, for any set function $f$ the pullback $f^*$ preserves joins since preimages respect unions, so it is well-defined as a map $\catSet \to \catCJoinLat$.
+    
+    The map $\strucS$ is also contravariant since if $f \colon X \to Y$ and $g \colon Y \to Z$ are set functions, then for $\calG \in \strucS_Z$ we have
+    %
+    \begin{equation*}
+        (g \circ f)^*(\calG)
+            = (g \circ f)^{-1}(\calG)
+            = f^{-1}(g^{-1}(\calG))
+            = (f^* \circ g^*) (\calG).
+    \end{equation*}
+    %
+    Its action on identity functions is clearly trivial, so it is a functor.
+\end{proof}
+
+In the case of topological spaces or measure spaces we can say slightly more: Notice that in both a lattice of topologies or of $\sigma$-algebras on a set, intersections of topologies ($\sigma$-algebras) are themselves topologies ($\sigma$-algebras). A nonempty subset $\frakL$ of $2^X$, where $X$ is some set, is called an \emph{intersection structure}. If also $X \in \frakL$ we call it a \emph{topped intersection structure}. It is easy to show that topped intersection structures are complete lattices ordered by inclusion, and that meets are given by intersections.
+
+If $\catCLat$ denotes the category of complete lattices with join- and meet-preserving maps, then we have the following:
+
+\begin{proposition}[Functoriality of $\strucS$, II]
+    If $\strucS_X$ is an intersection structure for all sets $X$, then $\strucS$ is a contravariant functor from $\catSet$ to $\catCLat$.
+\end{proposition}
+
+\begin{proof}
+    It suffices to show that $f^*$ preserves meets for all set functions $f \colon X \to Y$. But this is clear since preimages respect intersections.
+\end{proof}
+
+It is natural to ask whether the pushforward $f_*$ by $f$ gives rise to a covariant functor from $\catSet$ into a category of lattices. It is easy to see that $f_*$ is monotone, and a short calculation shows that $(g \circ f)_* = g_* \circ f_*$ if $g \colon Y \to Z$ is another set function, so the pushforward does indeed define a covariant functor from $\catSet$ to the category $\catPos$ of posets and monotone maps. But $f_*$ does not, as far as I know, generally preserve meets or joins. If all $\strucS_X$ are intersection structures, however, it does preserve meets, so it is then a functor into the category $\catCMeetLat$ of complete meet-semilattices, though it still does not seem to preserve joins. (I haven't looked too hard for counterexamples.)
+
+
+\subsection{The forgetful functor on $\catStrucS$}
+
+Just as there is a forgetful functor $\catTop \to \catSet$ that sends a topological space to its underlying set, there is a forgetful functor $U \colon \catStrucS \to \catSet$. As usual, $U$ has a left adjoint $D$ that equips a set with the discrete structure, and it has a right adjoint $T$ that equips the set with the trivial structure, i.e. $D \dashv U \dashv T$.
+
+It follows immediately that $U$ preserves both limits and colimits. Hence if $\catStrucS$ e.g. has coproducts -- which it has, as we will see later -- we already know that they have to be (isomorphic to) disjoint unions of the underlying sets, equipped with an appropriate structure. Contrast this with the situation in the category $\catGrp$ of groups: The forgetful functor $U \colon \catGrp \to \catSet$ has a left adjoint, namely the free functor, so $U$ preserves limits. But it does not preserve colimits; for instance, coproducts in $\catGrp$ are free products, and their underlying sets are certainly not disjoint unions! Hence $U$ does not have a right adjoint.
+
+
+\subsection{Presheaves on structured sets}
+
+Let $(X, \calE)$ be a structured set, and view $\calE$ as a preorder category. Analogous to the case of topological spaces, a presheaf on $\calE$ (i.e. a contravariant functor $\calE \to \catSet$) is called a \emph{presheaf} on $(X, \calE)$, or simply a presheaf on $X$ if the structure is understood.
+
+As an example, fix a structured set $Y$ and take the presheaf $F$ on $X$ given by $F(B) = \catStrucS(B,Y)$, i.e. $F$ sends a set $B \in \calE$ to the set of homomorphisms $B \to Y$. Furthermore, $F$ sends an inclusion $B \subseteq B'$ in $\calE$ to the restriction map $\catStrucS(B',Y) \to \catStrucS(B,Y)$ given by $f \mapsto f|_B$. A common example of this is the case $\catStrucS = \catTop$ and $Y = \reals$, in which case $F$ sends an open set $U$ to the set of continuous functions $U \to \reals$.
 
 
 
