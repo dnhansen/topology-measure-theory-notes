@@ -343,6 +343,7 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 
 
 \begin{proposition}[Composition of initial structures]
+    \label{thm:composition_initial_structures}
     For $\alpha \in A$ and $\lambda \in \Lambda_\alpha$, let $X_\alpha$ and $Y_{\alpha\lambda}$ be structured sets such that each $X_\alpha$ carry the initial structure induced by maps $g_{\alpha\lambda} \colon X_\alpha \to Y_{\alpha\lambda}$ for $\lambda \in \Lambda_\alpha$. Let $X$ be a set, and consider maps $f_\alpha \colon X \to X_\alpha$.
 
     Let $\calE_1$ be the initial structure on $X$ induced by the maps $f_\alpha$, and let $\calE_2$ be the structure induced by the compositions $g_{\alpha\lambda} \circ f_\alpha$. Then $\calE_1 = \calE_2$.
@@ -532,11 +533,24 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 \begin{examplebreak}[Disjoint unions]
     If $(X_\alpha)_{\alpha \in A}$ is a collection of structured sets, we equip the disjoint union $X = \coprod_{\alpha \in A} X_\alpha$ with the final structure coinduced by the inclusions $i_\alpha \colon X_\alpha \to X$.
 
-    We will see in \cref{sec:structure_categorical} that $X$ is a coproduct of the $X_\alpha$ in $\catStrucS$, but this fact will be convenient in the proof of [final structures as quotient structures].
+    We will see in \cref{sec:structure_categorical} that $X$ is a coproduct of the $X_\alpha$ in $\catStrucS$, but this fact will be convenient in the proof of \cref{thm:final_structures_quotient}.
 \end{examplebreak}
 
 
+\begin{proposition}[Composition of final structures]
+    \label{thm:composition_final_structures}
+    For $\alpha \in A$ and $\lambda \in \Lambda_\alpha$, let $X_\alpha$ and $Y_{\alpha\lambda}$ be structured sets such that each $X_\alpha$ carry the final structure induced by maps $g_{\alpha\lambda} \colon Y_{\alpha\lambda} \to X_\alpha$ for $\lambda \in \Lambda_\alpha$. Let $X$ be a set, and consider maps $f_\alpha \colon X_\alpha \to X$.
+
+    Let $\calE_1$ be the final structure on $X$ induced by the maps $f_\alpha$, and let $\calE_2$ be the structure induced by the compositions $g_{\alpha\lambda} \circ f_\alpha$. Then $\calE_1 = \calE_2$.
+\end{proposition}
+
+\begin{proof}
+    This result is just the dual of \cref{thm:composition_initial_structures}, so we omit the proof.
+\end{proof}
+
+
 \begin{proposition}[Final structures as quotient structures]
+    \label{thm:final_structures_quotient}
     Let $f_\alpha \colon X_\alpha \to Y$ for $\alpha \in A$, let $X = \coprod_{\alpha \in A} X_\alpha$, and let $f \colon X \to Y$ be the unique homomorphism such that $f_\alpha = f \circ i_\alpha$:
     %
     \begin{equation*}
@@ -557,6 +571,8 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 %
 The condition that $f$ is surjective is equivalent to the property that every point in $Y$ is in the image of some $f_\alpha$. In this case we say that the maps $f_\alpha$ \emph{cover points} in $Y$.
 
+Notice also that by \cref{thm:composition_final_structures}, the final structure on $Y$ coinduced by the $f_\alpha$ is the same as the structure coinduced by $f$.
+
 \begin{proof}
     Consider the commutative diagram:
     %
@@ -574,13 +590,7 @@ The condition that $f$ is surjective is equivalent to the property that every po
         \end{tikzcd}
     \end{equation*}
     %
-    First assume that $\tilde{f}$ is an isomorphism. Then $Y$ carries the final structure coinduced by it. But $X/{\sim}$ has the final structure coinduced by $q$, and $X$ the structure coinduced by the $f_\alpha$. By [composition of final structures], $Y$ has the final structure coinduced by the maps
-    %
-    \begin{equation*}
-        \tilde{f} \circ q \circ i_\alpha = f_\alpha,
-    \end{equation*}
-    %
-    as claimed.
+    First assume that $\tilde{f}$ is an isomorphism. Then $Y$ carries the final structure coinduced by it. But $X/{\sim}$ has the final structure coinduced by $q$, and $X$ the structure coinduced by the $f_\alpha$. By \cref{thm:composition_final_structures}, $Y$ has the final structure coinduced by the map $\tilde{f} \circ q = f$ as claimed.
 
     Conversely, assume that $Y$ has the final structure $\calF$ coinduced by the $f_\alpha$. Let $\calE$ denote the disjoint union structure on $X$ and $\tilde{\calE}$ the quotient structure on $X/{\sim}$. Notice that $\tilde{f}$ is surjective since $f$ is surjective, and it is injective by definition of $\sim$. We thus need to prove that $\tilde{f}\inv$ is a homomorphism, and it suffices to show that $\tilde{f}(\tilde{\calE}) \subseteq \calF$. This is the case if and only if
     %
