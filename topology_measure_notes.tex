@@ -239,11 +239,12 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
     \label{rem:initial_structure_generating_set}
     If $\calD_\alpha$ is a generating set for $\calE_\alpha$ for all $\alpha \in A$, then we may replace $\calE_\alpha$ on the right-hand side above with $\calD_\alpha$. This follows immediately from the second part of \cref{thm:preimage_and_generation_commute}, since the structure $\gen[\big]{ \bigunion_{\alpha \in A} f_\alpha\preim(\calD_\alpha) }$ makes all $f_\alpha$ into homomorphisms.
 
-    Note that $\bigjoin_{\alpha \in A} f_\alpha\preim(\calD_\alpha)$ doesn't generally make sense, since $\calD_\alpha$ is not necessarily a structure on $X_\alpha$.
+    Note that $\bigjoin_{\alpha \in A} f_\alpha^*(\calD_\alpha)$ doesn't generally make sense, since $\calD_\alpha$ is not necessarily a structure on $X_\alpha$.
 \end{remark}
 
 
 \begin{theorem}[Characteristic property of initial structures]
+    \label{thm:initial_characteristic_property}
     Let $(X,\calE)$ be a structured set equipped with the initial structure induced by maps $f_\alpha \colon X \to X_\alpha$,  $\alpha \in A$. If $(Y,\calF)$ is a structured set, then $f \colon Y \to X$ is a homomorphism if and only if $f_\alpha \circ f$ is a homomorphism for all $\alpha \in A$:
     %
     \begin{equation*}
@@ -257,7 +258,7 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
         \end{tikzcd}
     \end{equation*}
     %
-    In particular, the maps $f_\alpha$ are homomorphisms. Furthermore, the initial structure on $X$ is unique with this property.
+    Furthermore, the initial structure on $X$ is unique with this property.
 \end{theorem}
 
 \begin{proof}
@@ -272,7 +273,9 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
             \in \calF
     \end{equation*}
     %
-    as desired. It now follows that $f_\alpha$ is a homomorphism because the diagram
+    as desired.
+    
+    We now show that the characteristic property uniquely determines a structure on $X$. First notice that the commutative diagram
     %
     \begin{equation*}
         \begin{tikzcd}
@@ -285,9 +288,9 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
         \end{tikzcd}
     \end{equation*}
     %
-    commutes, and since $\id_X$ is a homomorphism. Notice that this only depends on $\calE$ having the characteristic property above, and not on the concrete definition of $\calE$.
+    shows that $f_\alpha$ is a homomorphism, and that this only depends on $\calE$ having the characteristic property above, and not on the concrete definition of $\calE$.
 
-    Now assume that $\calE'$ is a structure on $X$ with the characteristic property of the initial structure. Consider the commutative diagram
+    Now assume that $\calE'$ is a structure on $X$ with the characteristic property. Consider the commutative diagram
     %
     \begin{equation*}
         \begin{tikzcd}
@@ -315,7 +318,7 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
         \end{tikzcd}
     \end{equation*}
     %
-    The $f_\alpha'$ are homomorphisms, since this fact only depends on $\calE'$ satisfying the characteristic property of initial structures. Applying the characteristic property to $\calE$ then shows that $\id_X'$ is a homomorphism. Thus $(X,\calE)$ and $(X,\calE')$ are isomorphic through the identity, hence $\calE = \calE'$.
+    The $f_\alpha'$ are homomorphisms as we showed above, since $\calE'$ by assumption satisfies the characteristic property. Applying the characteristic property to $\calE$ then shows that $\id_X'$ is a homomorphism. Thus $(X,\calE)$ and $(X,\calE')$ are isomorphic through the identity, hence $\calE = \calE'$.
 \end{proof}
 
 \begin{examplebreak}[Subsets]
@@ -340,27 +343,35 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 
 
 \begin{proposition}[Composition of initial structures]
-    Assume that $X$ has the initial structure induced by a family of maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$, and that each set $X_\alpha$ has the initial structure induced by maps $g_{\alpha\lambda} \colon X_\alpha \to Y_{\alpha\lambda}$ for $\lambda \in \Lambda_\alpha$. Then $X$ carries the initial structure induced by the maps $g_{\alpha\lambda} \circ f_\alpha \colon X \to Y_{\alpha\lambda}$ for $\alpha \in A$ and $\lambda \in \Lambda_\alpha$.
+    For $\alpha \in A$ and $\lambda \in \Lambda_\alpha$, let $X_\alpha$ and $Y_{\alpha\lambda}$ be structured sets such that each $X_\alpha$ carry the initial structure induced by maps $g_{\alpha\lambda} \colon X_\alpha \to Y_{\alpha\lambda}$ for $\lambda \in \Lambda_\alpha$. Let $X$ be a set, and consider maps $f_\alpha \colon X \to X_\alpha$.
+
+    Let $\calE_1$ be the initial structure on $X$ induced by the maps $f_\alpha$, and let $\calE_2$ be the structure induced by the compositions $g_{\alpha\lambda} \circ f_\alpha$. Then $\calE_1 = \calE_2$.
+    
+    % Assume that $X$ has the initial structure induced by a family of maps $f_\alpha \colon X \to X_\alpha$ for $\alpha \in A$, and that each set $X_\alpha$ has the initial structure induced by maps $g_{\alpha\lambda} \colon X_\alpha \to Y_{\alpha\lambda}$ for $\lambda \in \Lambda_\alpha$. Then $X$ carries the initial structure induced by the maps $g_{\alpha\lambda} \circ f_\alpha \colon X \to Y_{\alpha\lambda}$ for $\alpha \in A$ and $\lambda \in \Lambda_\alpha$.
 \end{proposition}
 
+% \begin{proof}
+%     Let $\calF_{\alpha\lambda}$ be the set structure on $Y_{\alpha\lambda}$. By definition we have
+%     %
+%     \begin{equation*}
+%         \calE_\alpha
+%             = \bigjoin_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}\preim(\calF_{\alpha\lambda})
+%             = \gen[\Big]{\bigunion_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}\preim(\calF_{\alpha\lambda})}.
+%     \end{equation*}
+%     %
+%     Since the union on the right-hand side is a generating set for $\calE_\alpha$, \cref{rem:initial_structure_generating_set} implies that
+%     %
+%     \begin{equation*}
+%         \calE
+%             = \gen[\Big]{\bigunion_{\alpha \in A} f_\alpha\preim \Big( \bigunion_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}\preim(\calF_{\alpha\lambda}) \Big)}
+%             = \gen[\Big]{\bigunion_{\alpha \in A} \bigunion_{\lambda \in \Lambda_\alpha} (g_{\alpha\lambda} \circ f_\alpha)\preim(\calF_{\alpha\lambda})},
+%     \end{equation*}
+%     %
+%     proving the claim.
+% \end{proof}
+
 \begin{proof}
-    Let $\calF_{\alpha\lambda}$ be the set structure on $Y_{\alpha\lambda}$. By definition we have
-    %
-    \begin{equation*}
-        \calE_\alpha
-            = \bigjoin_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}\preim(\calF_{\alpha\lambda})
-            = \gen[\Big]{\bigunion_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}\preim(\calF_{\alpha\lambda})}.
-    \end{equation*}
-    %
-    Since the union on the right-hand side is a generating set for $\calE_\alpha$, \cref{rem:initial_structure_generating_set} implies that
-    %
-    \begin{equation*}
-        \calE
-            = \gen[\Big]{\bigunion_{\alpha \in A} f_\alpha\preim \Big( \bigunion_{\lambda \in \Lambda_\alpha} g_{\alpha\lambda}\preim(\calF_{\alpha\lambda}) \Big)}
-            = \gen[\Big]{\bigunion_{\alpha \in A} \bigunion_{\lambda \in \Lambda_\alpha} (g_{\alpha\lambda} \circ f_\alpha)\preim(\calF_{\alpha\lambda})},
-    \end{equation*}
-    %
-    proving the claim.
+    By the characteristic property of initial structures, the $f_\alpha$ are homomorphisms if and only if all the $g_{\alpha\lambda} \circ f_\alpha$ are homomorphisms. If $X$ has the structure $\calE_1$, then we must have $\calE_2 \subseteq \calE_1$, since these compositions $g_{\alpha\lambda} \circ f_\alpha$ are homomorphisms. Conversely, if $X$ carries the structure $\calE_2$, then the $f_\alpha$ are homomorphisms, and so $\calE_1 \subseteq \calE_2$.
 \end{proof}
 
 
@@ -493,7 +504,7 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
         \end{tikzcd}
     \end{equation*}
     %
-    %In particular, the maps $f_\alpha$ are homomorphisms. Furthermore, the final structure on $X$ is unique with this property.
+    Furthermore, the final structure on $X$ is unique with this property.
 \end{theorem}
 
 \begin{proof}
@@ -508,8 +519,79 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
     \end{equation*}
     %
     since the $f \circ f_\alpha$ are homomorphisms. But then $f\preim(\calF) = f^*(\calF)$ is a structure on $X$ with respect to which the $f_\alpha$ are homomorphisms, and thus $f\preim(\calF) \subseteq \calE$ since $\calE$ is the largest structure with this property. Hence $f$ is a homomorphism.
+
+    The proof of uniqueness is analogous to the proof of uniqueness in \cref{thm:initial_characteristic_property}, so we omit it.
 \end{proof}
 
+
+\begin{examplebreak}[Quotient structures]
+    Let $X$ be a structured set, and let $Y$ be any set. If $q \colon X \to Y$ is a surjective map, the final structure on $Y$ induced by $q$ is called the \emph{quotient structure}. In particular, if $\sim$ is an equivalence relation on $X$ and $q \colon X \to X/{\sim}$ is the associated natural map, we will always equip $X/{\sim}$ with the quotient structure induced by $q$.
+\end{examplebreak}
+
+
+\begin{examplebreak}[Disjoint unions]
+    If $(X_\alpha)_{\alpha \in A}$ is a collection of structured sets, we equip the disjoint union $X = \coprod_{\alpha \in A} X_\alpha$ with the final structure coinduced by the inclusions $i_\alpha \colon X_\alpha \to X$.
+
+    We will see in \cref{sec:structure_categorical} that $X$ is a coproduct of the $X_\alpha$ in $\catStrucS$, but this fact will be convenient in the proof of [final structures as quotient structures].
+\end{examplebreak}
+
+
+\begin{proposition}[Final structures as quotient structures]
+    Let $f_\alpha \colon X_\alpha \to Y$ for $\alpha \in A$, let $X = \coprod_{\alpha \in A} X_\alpha$, and let $f \colon X \to Y$ be the unique homomorphism such that $f_\alpha = f \circ i_\alpha$:
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            X_\alpha
+                \ar[d, "i_\alpha", swap]
+                \ar[dr, "f_\alpha"] \\
+            X
+                \ar[r, "f", swap]
+            & Y
+        \end{tikzcd}
+    \end{equation*}
+    %
+    Define an equivalence relation $\sim$ on $X$ by letting $x \sim x'$ if $f(x) = f(x')$ for $x,x' \in X$. Let $q \colon X \to X/{\sim}$ be the associated quotient map, and let $\tilde{f} \colon X/{\sim} \to Y$ be the unique homomorphism such that $\tilde{f} \circ q = f$.
+
+    Assume that $f$ is surjective. Then $Y$ has the final structure coinduced by the $f_\alpha$ if and only if $\tilde{f}$ is an isomorphism.
+\end{proposition}
+%
+The condition that $f$ is surjective is equivalent to the property that every point in $Y$ is in the image of some $f_\alpha$. In this case we say that the maps $f_\alpha$ \emph{cover points} in $Y$.
+
+\begin{proof}
+    Consider the commutative diagram:
+    %
+    \begin{equation*}
+        \begin{tikzcd}[column sep=0em]
+            X_\alpha
+                \ar[d, "i_\alpha", swap]
+                \ar[drr, "f_\alpha"] \\
+            X
+                \ar[rr, "f", swap]
+                \ar[dr, "q", swap]
+            && Y \\
+            & X/{\sim}
+                \ar[ur, "\tilde{f}", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    First assume that $\tilde{f}$ is an isomorphism. Then $Y$ carries the final structure coinduced by it. But $X/{\sim}$ has the final structure coinduced by $q$, and $X$ the structure coinduced by the $f_\alpha$. By [composition of final structures], $Y$ has the final structure coinduced by the maps
+    %
+    \begin{equation*}
+        \tilde{f} \circ q \circ i_\alpha = f_\alpha,
+    \end{equation*}
+    %
+    as claimed.
+
+    Conversely, assume that $Y$ has the final structure $\calF$ coinduced by the $f_\alpha$. Let $\calE$ denote the disjoint union structure on $X$ and $\tilde{\calE}$ the quotient structure on $X/{\sim}$. Notice that $\tilde{f}$ is surjective since $f$ is surjective, and it is injective by definition of $\sim$. We thus need to prove that $\tilde{f}\inv$ is a homomorphism, and it suffices to show that $\tilde{f}(\tilde{\calE}) \subseteq \calF$. This is the case if and only if
+    %
+    \begin{equation*}
+        q\preim(\tilde{\calE})
+            = f\preim(\tilde{f}(\tilde{\calE}))
+            \subseteq \calE,
+    \end{equation*}
+    %
+    and this is true since $q$ is a quotient map.
+\end{proof}
 
 
 \section{Categorical properties} \label{sec:structure_categorical}
