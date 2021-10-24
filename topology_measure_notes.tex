@@ -182,9 +182,9 @@ In the sequel we fix a structure functor $\strucS$.
 \end{lemma}
 
 \begin{proof}
-    Let $\Sigma(\calD) = \set{\calE \in \strucS_X}{\calD \subseteq \calE}$. Since $\strucS_X$ is a complete lattice, we can put
+    Let $\mathfrak{D} = \set{\calE \in \strucS_X}{\calD \subseteq \calE}$. Since $\strucS_X$ is a complete lattice, we can put
     \begin{equation*}
-        \gen{\calD} = \bigmeet_{\calE \in \Sigma(\calD)} \calE \in \strucS_X.
+        \gen{\calD} = \bigmeet_{\calE \in \mathfrak{D}} \calE \in \strucS_X.
     \end{equation*}
 \end{proof}
 %
@@ -252,12 +252,12 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
     %
     \begin{equation*}
         \begin{tikzcd}
-            X
-                \ar[r, "f_\alpha"]
             & X_\alpha \\
             Y
-                \ar[u, "f"]
-                \ar[ur, "f_\alpha \circ f", swap]
+                \ar[r, "f", swap]
+                \ar[ur, "f_\alpha \circ f"]
+            & X
+                \ar[u, "f_\alpha", swap]
         \end{tikzcd}
     \end{equation*}
     %
@@ -282,12 +282,12 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
     %
     \begin{equation*}
         \begin{tikzcd}
-            X
-                \ar[r, "f_\alpha"]
             & X_\alpha \\
             X
-                \ar[u, "\id_X"]
-                \ar[ur, "f_\alpha", swap]
+                \ar[r, "\id_X", swap]
+                \ar[ur, "f_\alpha"]
+            & X
+                \ar[u, "f_\alpha", swap]
         \end{tikzcd}
     \end{equation*}
     %
@@ -297,12 +297,12 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
     %
     \begin{equation*}
         \begin{tikzcd}
-            (X,\calE')
-                \ar[r, "f_\alpha'"]
             & X_\alpha \\
-            (X,\calE)
-                \ar[u, "\id_X"]
-                \ar[ur, "f_\alpha", swap]
+            (X, \calE)
+                \ar[r, "\id_X", swap]
+                \ar[ur, "f_\alpha"]
+            & (X, \calE')
+                \ar[u, "f_\alpha'", swap]
         \end{tikzcd}
     \end{equation*}
     %
@@ -312,12 +312,12 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
     %
     \begin{equation*}
         \begin{tikzcd}
-            (X,\calE)
-                \ar[r, "f_\alpha"]
             & X_\alpha \\
-            (X,\calE')
-                \ar[u, "\id_X'"]
-                \ar[ur, "f_\alpha'", swap]
+            (X, \calE')
+                \ar[r, "\id_X'", swap]
+                \ar[ur, "f_\alpha'"]
+            & (X, \calE)
+                \ar[u, "f_\alpha", swap]
         \end{tikzcd}
     \end{equation*}
     %
@@ -384,14 +384,14 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
     %
     \begin{equation*}
         \begin{tikzcd}
-            & S_\alpha
+            S_\alpha
                 \ar[r, "\iota_{S_\alpha}"]
             & X_\alpha \\
             S  
-                \ar[ur, "\pi_{S_\alpha}"]
+                \ar[u, "\pi_{S_\alpha}"]
                 \ar[r, "\iota_S", swap]
             & X
-                \ar[ur, "\pi_{X_\alpha}", swap]
+                \ar[u, "\pi_{X_\alpha}", swap]
         \end{tikzcd}
     \end{equation*}
     %
@@ -405,16 +405,16 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 
 
 \begin{proposition}[Embedding into product]
-    Let $f_\alpha \colon Y \to X_\alpha$ for $\alpha \in A$, let $X = \bigprod_{\alpha \in A} X_\alpha$, and let $f \colon Y \to X$ be the unique map such that $f_\alpha = \pi_\alpha \circ f$:
+    Let $f_\alpha \colon Y \to X_\alpha$ for $\alpha \in A$ be homomorphisms, let $X = \bigprod_{\alpha \in A} X_\alpha$, and let $f \colon Y \to X$ be the unique homomorphism such that $f_\alpha = \pi_\alpha \circ f$:
     %
     \begin{equation*}
         \begin{tikzcd}
-            && X_\alpha \\
+            & X_\alpha \\
             Y
                 \ar[r, "f", swap]
-                \ar[rru, "f_\alpha", bend left]
+                \ar[ru, "f_\alpha"]
             & X
-                \ar[ru, "\pi_\alpha", swap]
+                \ar[u, "\pi_\alpha", swap]
         \end{tikzcd}
     \end{equation*}
     %
@@ -422,6 +422,8 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 \end{proposition}
 
 \begin{proof}
+    Notice that $f$ is unique as a set function since $X$ is a product in $\catSet$, and $f$ is a homomorphism by the characteristic property of initial structures.
+
     First assume that $f$ is an embedding. In particular it is injective, and since the maps $\pi_\alpha$ separate points in $X$, the compositions $f_\alpha = \pi_\alpha \circ f$ separate points in $Y$. Let $\tilde f \colon Y \to f(Y)$ be the isomorphism such that $f = \iota_{f(Y)} \circ \tilde f$. Then since $\tilde f$ is an isomorphism, in particular $Y$ carries the initial structure induced by $\tilde f$. But then $Y$ carries the initial structure induced by the maps
     %
     \begin{equation}
