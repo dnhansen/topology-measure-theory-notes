@@ -556,7 +556,7 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 
 \begin{proposition}[Final structures as quotient structures]
     \label{thm:final_structures_quotient}
-    Let $f_\alpha \colon X_\alpha \to Y$ for $\alpha \in A$, let $X = \coprod_{\alpha \in A} X_\alpha$, and let $f \colon X \to Y$ be the unique homomorphism such that $f_\alpha = f \circ i_\alpha$:
+    Let $f_\alpha \colon X_\alpha \to Y$ for $\alpha \in A$ be homomorphisms, let $X = \coprod_{\alpha \in A} X_\alpha$, and let $f \colon X \to Y$ be the unique homomorphism such that $f_\alpha = f \circ i_\alpha$:
     %
     \begin{equation*}
         \begin{tikzcd}
@@ -579,13 +579,15 @@ The condition that $f$ is surjective is equivalent to the property that every po
 Notice also that by \cref{thm:composition_final_structures}, the final structure on $Y$ coinduced by the $f_\alpha$ is the same as the structure coinduced by $f$.
 
 \begin{proof}
+    Notice that $f$ is unique as a set function since $X$ is a coproduct in $\catSet$, and it is a homomorphism by the characteristic property of final structures.
+
     Consider the commutative diagram:
     %
     \begin{equation*}
         \begin{tikzcd}[column sep=0em]
-            X_\alpha
-                \ar[d, "i_\alpha", swap]
-                \ar[drr, "f_\alpha"] \\
+            % X_\alpha
+            %     \ar[d, "i_\alpha", swap]
+            %     \ar[drr, "f_\alpha"] \\
             X
                 \ar[rr, "f", swap]
                 \ar[dr, "q", swap]
@@ -595,17 +597,17 @@ Notice also that by \cref{thm:composition_final_structures}, the final structure
         \end{tikzcd}
     \end{equation*}
     %
-    First assume that $\tilde{f}$ is an isomorphism. Then $Y$ carries the final structure coinduced by it. But $X/{\sim}$ has the final structure coinduced by $q$, and $X$ the structure coinduced by the $f_\alpha$. By \cref{thm:composition_final_structures}, $Y$ has the final structure coinduced by the map $\tilde{f} \circ q = f$ as claimed.
+    First assume that $\tilde{f}$ is an isomorphism. Then $Y$ in particular carries the final structure coinduced by $\tilde{f}$. But $X/{\sim}$ has the final structure coinduced by $q$, so $Y$ has the final structure coinduced by the map $\tilde{f} \circ q = f$ by \cref{thm:composition_final_structures} as claimed.
 
     Conversely, assume that $Y$ has the final structure $\calF$ coinduced by the $f_\alpha$. Let $\calE$ denote the disjoint union structure on $X$ and $\tilde{\calE}$ the quotient structure on $X/{\sim}$. Notice that $\tilde{f}$ is surjective since $f$ is surjective, and it is injective by definition of $\sim$. We thus need to prove that $\tilde{f}\inv$ is a homomorphism, and it suffices to show that $\tilde{f}(\tilde{\calE}) \subseteq \calF$. This is the case if and only if
     %
     \begin{equation*}
         q\preim(\tilde{\calE})
-            = f\preim(\tilde{f}(\tilde{\calE}))
+            = f\preim \bigl( \tilde{f}(\tilde{\calE}) \bigr)
             \subseteq \calE,
     \end{equation*}
     %
-    and this is true since $q$ is a quotient map.
+    and this is true since $q$ is a homomorphism.
 \end{proof}
 
 
