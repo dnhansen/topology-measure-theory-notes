@@ -23,7 +23,7 @@
 \let\mathfrak\undefined
 \usepackage{eufrak}
 \usepackage{inconsolata}
-\usepackage{amssymb}
+% \usepackage{amssymb}
 
 % Hyperlinks
 \usepackage{hyperref}
@@ -49,6 +49,7 @@
 \usepackage{styles/framedtheorems}
 \usepackage{styles/topologycommands}
 \usepackage{tikz-cd}
+\tikzcdset{arrow style=math font} % https://tex.stackexchange.com/questions/300352/equalities-look-broken-with-tikz-cd-and-math-font
 \usetikzlibrary{babel}
 
 % Lists
@@ -81,7 +82,6 @@
 \DeclarePairedDelimiter{\net}{\langle}{\rangle}
 \newcommand{\strucS}{\mathfrak{S}}
 \DeclarePairedDelimiter{\gen}{\langle}{\rangle} % Generating set
-\newcommand{\powerset}[1]{2^{#1}}
 \newcommand{\frakL}{\mathfrak{L}}
 
 % Categories
@@ -100,13 +100,11 @@
 \newcommand{\catStruc}[1]{\ncat{Str}_{#1}} % Category of structured sets
 \newcommand{\catStrucS}{\catStruc{\strucS}} % Category of \strucS-structured sets
 
+% TODO is this necessary?
+% % Section style -- add to section style .sty?
+% \setsubsecheadstyle{\normalfont\itshape}
 
-% Section style -- add to section style .sty?
-\setsubsecheadstyle{\normalfont\itshape}
 
-
-% Preimage -- to be added to mathcommands .sty
-\newcommand{\preim}{^{-1}}
 
 
 \begin{document}
@@ -278,7 +276,7 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
     %
     as desired.
     
-    We now show that the characteristic property uniquely determines a structure on $X$. First notice that the commutative diagram
+    We now show that the characteristic property uniquely determines a structure on $X$. First let $\calE$ be a structure on $X$ such that a map $f \colon Y \to X$ is a homomorphism if and only if each $f_\alpha \circ f$ is a homomorphism. The commutative diagram
     %
     \begin{equation*}
         \begin{tikzcd}
@@ -291,9 +289,9 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
         \end{tikzcd}
     \end{equation*}
     %
-    shows that $f_\alpha$ is a homomorphism, and that this only depends on $\calE$ having the characteristic property above, and not on the concrete definition of $\calE$.
+    then shows that $f_\alpha$ is a homomorphism since $\id_X$ trivially is.
 
-    Now assume that $\calE'$ is a structure on $X$ with the characteristic property. Consider the commutative diagram
+    Next let $\calE'$ be another structure on $X$ with the characteristic property. Consider the commutative diagram
     %
     \begin{equation*}
         \begin{tikzcd}
@@ -306,22 +304,7 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
         \end{tikzcd}
     \end{equation*}
     %
-    where a prime denotes that the domain of a map is $(X,\calE')$ but is as a set function the same as its unprimed counterpart. The $f_\alpha$ are homomorphisms, so by the characteristic property applied to $\calE'$ we get that $\id_X$ is a homomorphism.
-
-    Finally consider the analogous diagram with primes interchanged:
-    %
-    \begin{equation*}
-        \begin{tikzcd}
-            & X_\alpha \\
-            (X, \calE')
-                \ar[r, "\id_X'", swap]
-                \ar[ur, "f_\alpha'"]
-            & (X, \calE)
-                \ar[u, "f_\alpha", swap]
-        \end{tikzcd}
-    \end{equation*}
-    %
-    The $f_\alpha'$ are homomorphisms as we showed above, since $\calE'$ by assumption satisfies the characteristic property. Applying the characteristic property to $\calE$ then shows that $\id_X'$ is a homomorphism. Thus $(X,\calE)$ and $(X,\calE')$ are isomorphic through the identity, hence $\calE = \calE'$.
+    where a prime denotes that the domain of a map is $(X,\calE')$ but is as a set function the same as its unprimed counterpart. The $f_\alpha$ are homomorphisms, so by the characteristic property applied to $\calE'$ we get that $\id_X$ is a homomorphism. By symmetry the corresponding primed map $\id_X' \colon (X, \calE') \to (X, \calE)$ is also a homomorphism, so $(X,\calE)$ and $(X,\calE')$ are isomorphic through the identity, and hence $\calE = \calE'$.
 \end{proof}
 
 \begin{examplebreak}[Subsets]
@@ -330,7 +313,7 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 
     On the other hand, if $f \colon Y \to X$ is a map with $f(Y) \subseteq S$, then the map $\tilde f \colon Y \to S$ given by $\tilde f(y) = f(y)$ for all $y \in Y$ is a homomorphism if and only if $f = \iota_S \circ \tilde f$ is a homomorphism. In other words, whether a map is a homomorphism or not does not depend on the codomain if we agree to equip subsets with the structure induced by their inclusion maps.
 
-    If $S = f(Y)$ and $\tilde f \colon Y \to f(Y)$ is an isomorphism, then we call $f$ an \emph{embedding}.
+    If $S = f(Y)$ and $\tilde f \colon Y \to f(Y)$ is an isomorphism, then we call $f$ an \emph{embedding}. Hence inclusion maps are in particular embeddings.
 \end{examplebreak}
 
 \begin{examplebreak}[Products]
@@ -347,7 +330,7 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 
 \begin{proposition}[Composition of initial structures]
     \label{thm:composition_initial_structures}
-    For $\alpha \in A$ and $\lambda \in \Lambda_\alpha$, let $X_\alpha$ and $Y_{\alpha\lambda}$ be structured sets such that each $X_\alpha$ carry the initial structure induced by maps $g_{\alpha\lambda} \colon X_\alpha \to Y_{\alpha\lambda}$ for $\lambda \in \Lambda_\alpha$. Let $X$ be a set, and consider maps $f_\alpha \colon X \to X_\alpha$.
+    For $\alpha \in A$ and $\lambda \in L_\alpha$, let $X_\alpha$ and $Y_{\alpha\lambda}$ be structured sets such that each $X_\alpha$ carry the initial structure induced by maps $g_{\alpha\lambda} \colon X_\alpha \to Y_{\alpha\lambda}$ for $\lambda \in L_\alpha$. Let $X$ be a set, and consider maps $f_\alpha \colon X \to X_\alpha$.
 
     Let $\calE_1$ be the initial structure on $X$ induced by the maps $f_\alpha$, and let $\calE_2$ be the structure induced by the compositions $g_{\alpha\lambda} \circ f_\alpha$. Then $\calE_1 = \calE_2$.
     
@@ -380,7 +363,7 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 
 
 \begin{examplebreak}[Subspace and product structures]
-    Let $(X_\alpha)_{\alpha \in A}$ be a family of structured sets, and let $S_\alpha \subseteq X_\alpha$ be subsets. Then we may equip the product $S = \bigprod_{\alpha \in A} S_\alpha$ by first equipping $X = \bigprod_{\alpha \in A} X_\alpha$ with the product structure, and then induce the subset structure on $S$. In the opposite order we may first equip each $S_\alpha$ with the subset structure, and then induce the product structure. These in fact give the same structure since the diagram
+    Let $(X_\alpha)_{\alpha \in A}$ be a family of structured sets, and let $S_\alpha \subseteq X_\alpha$ be subsets. Then we may equip the product $S = \bigprod_{\alpha \in A} S_\alpha$ with a structure by first equipping $X = \bigprod_{\alpha \in A} X_\alpha$ with the product structure, and then induce the subset structure on $S$. In the opposite order we may first equip each $S_\alpha$ with the subset structure, and then induce the product structure. These in fact give the same structure since the diagram
     %
     \begin{equation*}
         \begin{tikzcd}
@@ -400,7 +383,20 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 
 
 \begin{examplebreak}[The weak${}^*$-topology]
-    Let $X$ be a topological vector space over the field $\setF$ with topological dual $X^*$, and for $x \in X$ let $\ev_x \colon X^* \to \setF$ be the evaluation map $\ev_x(\phi) = \phi(x)$ for $\phi \in X^*$. Since $X^*$ is a subset of $\setF^X$, it naturally carries the subspace topology. The product topology on $\setF^X$ is induced by the projection maps $\pi_x \colon \setF^X \to \setF$ for $x \in X$. But $\pi_x \circ \iota_{X^*}$ is just the evaluation map $\ev_x$, so the subspace topology on $X^*$ is exactly the weak${}^*$-topology.
+    Let $X$ be a topological vector space over the field $\setF$ with topological dual $X^*$, and for $x \in X$ let $\ev_x \colon X^* \to \setF$ be the evaluation map $\ev_x(\phi) = \phi(x)$ for $\phi \in X^*$. Since $X^*$ is a subset of $\setF^X$, it naturally carries the subspace topology. The product topology on $\setF^X$ is induced by the projection maps $\pi_x \colon \setF^X \to \setF$ for $x \in X$. But $\pi_x \circ \iota_{X^*}$ is just the evaluation map $\ev_x$, so the diagram
+    %
+    \begin{equation*}
+        \begin{tikzcd}
+            & \setF \\
+            X^*
+                \ar[r, "\iota_{X^*}", swap]
+                \ar[ru, "\ev_x"]
+            & \setF^X
+                \ar[u, "\pi_x", swap]
+        \end{tikzcd}
+    \end{equation*}
+    %
+    commutes, and the subspace topology on $X^*$ is exactly the weak${}^*$-topology. In fact, since the evaluation maps clearly separate points in $X^*$, the inclusion $\iota_{X^*}$ is in fact an embedding, as the following proposition shows:
 \end{examplebreak}
 
 
@@ -420,6 +416,8 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
     %
     Then $f$ is an embedding if and only if $Y$ carries the initial structure induced by the maps $f_\alpha$ and the collection $(f_\alpha)_{\alpha \in A}$ separates points in $Y$.
 \end{proposition}
+%
+Recall that the collection $(f_\alpha)_{\alpha \in A}$ separates points in $Y$ if for each pair $x,y \in Y$ with $x \neq y$ there exists an $\alpha \in A$ such that $f_\alpha(x) \neq f_\alpha(y)$.
 
 \begin{proof}
     Notice that $f$ is unique as a set function since $X$ is a product in $\catSet$, and $f$ is a homomorphism by the characteristic property of initial structures.
@@ -452,10 +450,10 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
         f(B)
             = \tilde f(B)
             = (\pi_\alpha \circ \iota_{f(Y)})\preim(C)
-            \in \calE_{f(Y)}.
+            \in \calE_{f(Y)}
     \end{equation*}
     %
-    as desired.
+    as desired. In the second equality we use that $\tilde f$ is surjective.
 \end{proof}
 
 
@@ -477,7 +475,7 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
     Now to prove the above claim: Since a basis in particular is a generating set (i.e. a subbasis), second-countable topologies are countably generated. Conversely, let $\calT$ be a topology that is generated by a countable set $\calD$. Then a basis $\calB$ for $\calT$ is obtained by taking finite intersections of elements from $\calD$. The number of these intersections is certainly less than the cardinality of the union
     %
     \begin{equation*}
-        \bigunion_{n \in \naturals} \bigprod_{i=1}^n \calD
+        \bigunion_{n \in \naturals} \calD^n
     \end{equation*}
     %
     of all finite products of $\calD$ with itself, an element $U_1 \times \cdots \times U_n$ of an $n$-fold product corresponding to the intersection $\bigintersect_{i=1}^n U_i$. But finite products of countable sets are countable, and so are countable unions of countable sets, so the union above is countable.
