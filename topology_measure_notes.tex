@@ -246,14 +246,14 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 
 \begin{theorem}[Characteristic property of initial structures]
     \label{thm:initial_characteristic_property}
-    Let $(X,\calE)$ be a structured set equipped with the initial structure induced by maps $f_\alpha \colon X \to X_\alpha$,  $\alpha \in A$. If $(Y,\calF)$ is a structured set, then $f \colon Y \to X$ is a homomorphism if and only if $f_\alpha \circ f$ is a homomorphism for all $\alpha \in A$:
+    Let $(X,\calE)$ be a structured set equipped with the initial structure induced by maps $f_\alpha \colon X \to X_\alpha$,  $\alpha \in A$. If $(Y,\calF)$ is a structured set, then $g \colon Y \to X$ is a homomorphism if and only if $f_\alpha \circ g$ is a homomorphism for all $\alpha \in A$:
     %
     \begin{equation*}
         \begin{tikzcd}
             & X_\alpha \\
             Y
-                \ar[r, "f", swap]
-                \ar[ur, "f_\alpha \circ f"]
+                \ar[r, "g", swap]
+                \ar[ur, "f_\alpha \circ g"]
             & X
                 \ar[u, "f_\alpha", swap]
         \end{tikzcd}
@@ -263,20 +263,20 @@ In topology, this proposition is trivial since every element in $\gen{\calD}$ is
 \end{theorem}
 
 \begin{proof}
-    If $f$ is a homomorphism, then clearly the $f_\alpha \circ f$ are all homomorphisms.
+    If $g$ is a homomorphism, then clearly the $f_\alpha \circ g$ are all homomorphisms.
 
-    Conversely, assume that all compositions $f_\alpha \circ f$ are homomorphisms. It suffices to show that $f\preim(B) \in \calF$ for all $B$ from a generating set for $\calE$, so let $B = f_\alpha\preim(C)$ for some $\alpha \in A$ and $C \in \calE_\alpha$. It follows that
+    Conversely, assume that all compositions $f_\alpha \circ g$ are homomorphisms. It suffices to show that $g\preim(B) \in \calF$ for all $B$ from a generating set for $\calE$, so let $B = f_\alpha\preim(C)$ for some $\alpha \in A$ and $C \in \calE_\alpha$. It follows that
     %
     \begin{equation*}
-        f\preim(B)
-            = f\preim(f_\alpha\preim(C))
-            = (f_\alpha \circ f)\preim(C)
+        g\preim(B)
+            = g\preim(f_\alpha\preim(C))
+            = (f_\alpha \circ g)\preim(C)
             \in \calF
     \end{equation*}
     %
     as desired.
     
-    We now show that the characteristic property uniquely determines a structure on $X$. First let $\calE$ be a structure on $X$ such that a map $f \colon Y \to X$ is a homomorphism if and only if each $f_\alpha \circ f$ is a homomorphism. The commutative diagram
+    We now show that the characteristic property uniquely determines a structure on $X$. First let $\calE$ be a structure on $X$ such that a map $g \colon Y \to X$ is a homomorphism if and only if each $f_\alpha \circ g$ is a homomorphism. The commutative diagram
     %
     \begin{equation*}
         \begin{tikzcd}
@@ -495,15 +495,15 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 
 
 \begin{theorem}[Characteristic property of final structures]
-    Let $(X,\calE)$ be a structured set equipped with the final structure coinduced by maps $f_\alpha \colon X_\alpha \to X$,  $\alpha \in A$. If $(Y,\calF)$ is a structured set, then $f \colon X \to Y$ is a homomorphism if and only if $f \circ f_\alpha$ is a homomorphism for all $\alpha \in A$:
+    Let $(X,\calE)$ be a structured set equipped with the final structure coinduced by maps $f_\alpha \colon X_\alpha \to X$,  $\alpha \in A$. If $(Y,\calF)$ is a structured set, then $g \colon X \to Y$ is a homomorphism if and only if $g \circ f_\alpha$ is a homomorphism for all $\alpha \in A$:
     %
     \begin{equation*}
         \begin{tikzcd}
             X_\alpha
                 \ar[r, "f_\alpha"]
-                \ar[dr, "f \circ f_\alpha", swap]
+                \ar[dr, "g \circ f_\alpha", swap]
             & X
-                \ar[d, "f"] \\
+                \ar[d, "g"] \\
             & Y
         \end{tikzcd}
     \end{equation*}
@@ -512,17 +512,17 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 \end{theorem}
 
 \begin{proof}
-    If $f$ is a homomorphism, then clearly the $f \circ f_\alpha$ are all homomorphisms.
+    If $g$ is a homomorphism, then clearly the $g \circ f_\alpha$ are all homomorphisms.
 
-    Conversely, assume that the $f \circ f_\alpha$ are homomorphisms. Notice that
+    Conversely, assume that the $g \circ f_\alpha$ are homomorphisms. Notice that
     %
     \begin{equation*}
-        f_\alpha\preim(f\preim(\calF))
-            = (f \circ f_\alpha)\preim(\calF)
+        f_\alpha\preim(g\preim(\calF))
+            = (g \circ f_\alpha)\preim(\calF)
             \subseteq \calE_\alpha,
     \end{equation*}
     %
-    since the $f \circ f_\alpha$ are homomorphisms. But then $f\preim(\calF) = f^*(\calF)$ is a structure on $X$ with respect to which the $f_\alpha$ are homomorphisms, and thus $f\preim(\calF) \subseteq \calE$ since $\calE$ is the largest structure with this property. Hence $f$ is a homomorphism.
+    since the $g \circ f_\alpha$ are homomorphisms. But then $g\preim(\calF) = g^*(\calF)$ is a structure on $X$ with respect to which the $f_\alpha$ are homomorphisms, and thus $g\preim(\calF) \subseteq \calE$ since $\calE$ is the largest structure with this property. Hence $g$ is a homomorphism.
 
     The proof of uniqueness is analogous to the proof of uniqueness in \cref{thm:initial_characteristic_property}, so we omit it.
 \end{proof}
@@ -542,9 +542,9 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 
 \begin{proposition}[Composition of final structures]
     \label{thm:composition_final_structures}
-    For $\alpha \in A$ and $\lambda \in \Lambda_\alpha$, let $X_\alpha$ and $Y_{\alpha\lambda}$ be structured sets such that each $X_\alpha$ carry the final structure induced by maps $g_{\alpha\lambda} \colon Y_{\alpha\lambda} \to X_\alpha$ for $\lambda \in \Lambda_\alpha$. Let $X$ be a set, and consider maps $f_\alpha \colon X_\alpha \to X$.
+    For $\alpha \in A$ and $\lambda \in L_\alpha$, let $X_\alpha$ and $Y_{\alpha\lambda}$ be structured sets such that each $X_\alpha$ carry the final structure induced by maps $g_{\alpha\lambda} \colon Y_{\alpha\lambda} \to X_\alpha$ for $\lambda \in L_\alpha$. Let $X$ be a set, and consider maps $f_\alpha \colon X_\alpha \to X$.
 
-    Let $\calE_1$ be the final structure on $X$ induced by the maps $f_\alpha$, and let $\calE_2$ be the structure induced by the compositions $g_{\alpha\lambda} \circ f_\alpha$. Then $\calE_1 = \calE_2$.
+    Let $\calE_1$ be the final structure on $X$ induced by the maps $f_\alpha$, and let $\calE_2$ be the structure induced by the compositions $f_\alpha \circ g_{\alpha\lambda}$. Then $\calE_1 = \calE_2$.
 \end{proposition}
 
 \begin{proof}
