@@ -534,7 +534,7 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 
 
 \begin{examplebreak}[Disjoint unions]
-    If $(X_\alpha)_{\alpha \in A}$ is a collection of structured sets, we equip the disjoint union $X = \coprod_{\alpha \in A} X_\alpha$ with the final structure coinduced by the inclusions $i_\alpha \colon X_\alpha \to X$.
+    If $(X_\alpha)_{\alpha \in A}$ is a collection of structured sets, we equip the disjoint union $X = \coprod_{\alpha \in A} X_\alpha$ with the final structure coinduced by the inclusions $\iota_\alpha \colon X_\alpha \to X$.
 
     We will see in \cref{sec:structure_categorical} that $X$ is a coproduct of the $X_\alpha$ in $\catStrucS$, but this fact will be convenient in the proof of \cref{thm:final_structures_quotient}.
 \end{examplebreak}
@@ -554,12 +554,12 @@ If $\calE$ is a structure on a set $X$, we say that $\calE$ is \emph{countably g
 
 \begin{proposition}[Final structures as quotient structures]
     \label{thm:final_structures_quotient}
-    Let $f_\alpha \colon X_\alpha \to Y$ for $\alpha \in A$ be homomorphisms, let $X = \coprod_{\alpha \in A} X_\alpha$, and let $f \colon X \to Y$ be the unique homomorphism such that $f_\alpha = f \circ i_\alpha$:
+    Let $f_\alpha \colon X_\alpha \to Y$ for $\alpha \in A$ be homomorphisms, let $X = \coprod_{\alpha \in A} X_\alpha$, and let $f \colon X \to Y$ be the unique homomorphism such that $f_\alpha = f \circ \iota_\alpha$:
     %
     \begin{equation*}
         \begin{tikzcd}
             X_\alpha
-                \ar[d, "i_\alpha", swap]
+                \ar[d, "\iota_\alpha", swap]
                 \ar[dr, "f_\alpha"] \\
             X
                 \ar[r, "f", swap]
@@ -587,7 +587,7 @@ Notice also that by \cref{thm:composition_final_structures}, the final structure
             %     \ar[d, "i_\alpha", swap]
             %     \ar[drr, "f_\alpha"] \\
             X
-                \ar[rr, "f", swap]
+                \ar[rr, "f"]
                 \ar[dr, "q", swap]
             && Y \\
             & X/{\sim}
